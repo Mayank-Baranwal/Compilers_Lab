@@ -42,16 +42,22 @@ int lex(){
             return SEMI;
            case '+':
             return PLUS;
-           // case '-':
-           //  return MINUS;
+           case '-':
+            return MINUS;
            case '*':
             return TIMES;
-           // case '/':
-           //  return DIV;
+           case '/':
+            return DIV;
            case '(':
             return LP;
            case ')':
             return RP;
+           case '>':
+            return GT;
+           case '<':
+            return LT;
+           case '=':
+            return ET;
            case '\n':
            case '\t':
            case ' ' :
@@ -66,30 +72,28 @@ int lex(){
             else if(!isalnum(*current))
                fprintf(stderr, "Not alphanumeric <%c>\n", *current);
             else{
-                string temp = "";
+                char temp[50];
+                int i=0;
                while(isalnum(*current))
                {
-                temp += (*current);
+                temp[i++]= (*current);
                 ++current;
                }
+               temp[i]='\0';
                yyleng = current - yytext;
-
-               switch(temp) {
-                  case "if":
+               if(strcmp(temp,"if")==0)
                     return IF;
-                  case "then":
+               if(strcmp(temp,"then")==0)
                     return THEN;
-                  case "while":
+               if(strcmp(temp,"while")==0)
                     return WHILE;
-                  case "do":
+               if(strcmp(temp,"do")==0)
                     return DO;
-                  case "begin":
+               if(strcmp(temp,"begin")==0)
                     return BEGIN;
-                  case "end":
-                    return END;
-                  default:
-                    return NUM_OR_ID;
-               }
+               if(strcmp(temp,"end")==0)
+                    return END;    
+               return NUM_OR_ID;
             }
             break;
          }

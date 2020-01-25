@@ -15,15 +15,15 @@ char    *expression ( void );
 void stmt_list ()
 {
     char * tempvar;
-    while (!match (EOI))
+    while (1)
     {
-        tempvar=stmt();
+        stmt();
+        if(match(END))
+            break;
         if( match( SEMI ) )
             advance();
         else
             fprintf( stderr, "%d: Inserting missing semicolon\n", yylineno );
-
-        freename( tempvar );
     }
 }
 
@@ -31,13 +31,20 @@ void stmt_list ()
 void stmt ()
 {
     char * tempvar;
+    // printf("stmt\n");
     if(match(NUM_OR_ID))
     {
+        int yyleng_temp=yyleng;
+        char yytext_temp[50];
+        strcpy(yytext_temp,yytext);
+        advance();
         if(match(COLET))
         {
-            printf("id :=");
+            advance();
+
             tempvar=expr();
-            printf("%s\n", tempvar);
+            printf("   %0.*s = %s\n", yyleng_temp, yytext_temp, tempvar);
+            freename(tempvar);
         }  
         return;
     }   
@@ -51,9 +58,11 @@ void stmt ()
         if(match(THEN))
         {
             printf("then{\n");
-            tempvar=expr();
+            advance();
+            stmt();
             printf("}\n");
         }
+        freename(tempvar);
         return;
     }
     if (match(WHILE))
@@ -66,11 +75,14 @@ void stmt ()
         if(match(DO))
         {
             printf("do{\n");
-            tempvar=expr();
-            printf("}\n")
+            advance();
+            stmt();
+            printf("}\n");
         }
+        freename(tempvar);
         return;
     }
+
     if(match(BEGIN))
     {
         printf("begin{\n");
@@ -78,6 +90,7 @@ void stmt ()
         opt_stmts();
         return;
     }
+
 }
 
 void opt_stmts ()
@@ -86,8 +99,9 @@ void opt_stmts ()
     {
         advance();
         printf("}end\n");
+        return;
     }
-    stmt();
+    stmt_list();
     if(match(END))
     {
         advance();
@@ -98,6 +112,8 @@ void opt_stmts ()
 char   *expr ()
 {
     //relational
+    // printf("expr\n");
+
     char * tempvar;
     char * tempvarRes;
     char * tempvar2;
@@ -154,6 +170,7 @@ char   *expression()
     /* expression -> term expression'
      * expression' -> PLUS term expression' |  epsilon
      */
+    // printf("expression\n");
 
     char  *tempvar, *tempvar2;
 
@@ -182,6 +199,8 @@ char   *expression()
 
 char    *term()
 {
+    // printf("term\n");
+
     char  *tempvar, *tempvar2 ;
 
     tempvar = factor();
@@ -210,6 +229,8 @@ char    *term()
 
 char    *factor()
 {
+    // printf("factor\n");
+
     char *tempvar;
 
     if( match(NUM_OR_ID) )

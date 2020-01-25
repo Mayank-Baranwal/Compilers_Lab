@@ -12,5 +12,5 @@
 
 void main ()
 {
-	stmt_list ();
+	stmt ();
 }

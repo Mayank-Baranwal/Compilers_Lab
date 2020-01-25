@@ -14,6 +14,9 @@
 #define BEGIN		13
 #define END 		14
 #define COLET 		15
+#define GT			16
+#define LT			17
+#define ET 			18
 
 extern char *yytext;		/* in lex.c			*/
 extern int yyleng;
