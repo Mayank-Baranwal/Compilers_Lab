@@ -1,14 +1,14 @@
 #include "lex.h"
 #include <stdio.h>
 #include <ctype.h>
-
+#include <string.h>
 
 char* yytext = ""; /* Lexeme (not '\0'
                       terminated)              */
 int yyleng   = 0;  /* Lexeme length.           */
 int yylineno = 0;  /* Input line number        */
 
-int lex(void){
+int lex(){
 
    static char input_buffer[1024];
    char        *current;
@@ -57,13 +57,39 @@ int lex(void){
            case ' ' :
             break;
            default:
-            if(!isalnum(*current))
+            if(*current == ':' && *(current+1) == '=')
+            {
+              current += 2;
+              yyleng = current - yytext;
+              return COLET;
+            }
+            else if(!isalnum(*current))
                fprintf(stderr, "Not alphanumeric <%c>\n", *current);
             else{
+                string temp = "";
                while(isalnum(*current))
-                  ++current;
+               {
+                temp += (*current);
+                ++current;
+               }
                yyleng = current - yytext;
-               return NUM_OR_ID;
+
+               switch(temp) {
+                  case "if":
+                    return IF;
+                  case "then":
+                    return THEN;
+                  case "while":
+                    return WHILE;
+                  case "do":
+                    return DO;
+                  case "begin":
+                    return BEGIN;
+                  case "end":
+                    return END;
+                  default:
+                    return NUM_OR_ID;
+               }
             }
             break;
          }
@@ -90,3 +116,4 @@ void advance(void){
 
     Lookahead = lex();
 }
+
