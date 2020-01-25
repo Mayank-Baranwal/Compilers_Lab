@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "lex.h"
+// #include "code_gen.h"
 
 char    *factor     ( void );
 char    *term       ( void );
@@ -8,7 +7,7 @@ char    *expression ( void );
 extern char *newname( void       );
 extern void freename( char *name );
 
-statements()
+void statements()
 {
     /*  statements -> expression SEMI  |  expression SEMI statements  */
 

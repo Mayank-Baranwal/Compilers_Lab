@@ -1,7 +1,9 @@
+// #include "name.h"
+
 char  *Names[] = { "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7" };   
 char  **Namep  = Names;   
    
-char  *newname()   
+char  *newname(void)   
 {   
     if( Namep >= &Names[ sizeof(Names)/sizeof(*Names) ] )   
     {   
@@ -11,9 +13,9 @@ char  *newname()
    
     return( *Namep++ );   
 }   
-   
-freename(s)   
-char    *s;   
+
+
+void freename(char *s)     
 {   
     if( Namep > Names )   
     *--Namep = s;   

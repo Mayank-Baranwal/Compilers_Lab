@@ -1,7 +1,4 @@
 #include "lex.h"
-#include <stdio.h>
-#include <ctype.h>
-
 
 char* yytext = ""; /* Lexeme (not '\0'
                       terminated)              */
@@ -42,12 +39,12 @@ int lex(void){
             return SEMI;
            case '+':
             return PLUS;
-           case '-':
-            return MINUS;
+           // case '-':
+           //  return MINUS;
            case '*':
             return TIMES;
-           case '/':
-            return DIV;
+           // case '/':
+           //  return DIV;
            case '(':
             return LP;
            case ')':

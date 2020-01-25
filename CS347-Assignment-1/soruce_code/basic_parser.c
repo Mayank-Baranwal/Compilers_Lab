@@ -1,9 +1,16 @@
 /* Basic parser, shows the structure but there's no code generation */
 
-#include <stdio.h>
-#include "lex.h"
+// #include "basic_parser.h"
 
-statements()
+void statements();
+void expression();
+void expr_prime();
+void term();
+void term_prime();
+void factor();
+
+
+void statements()
 {
     /*  statements -> expression SEMI
      *             |  expression SEMI statements
@@ -20,7 +27,7 @@ statements()
         statements();			/* Do another statement. */
 }
 
-expression()
+void expression()
 {
     /* expression -> term expression' */
 
@@ -28,7 +35,7 @@ expression()
     expr_prime();
 }
 
-expr_prime()
+void expr_prime()
 {
     /* expression' -> PLUS term expression'
      *              | epsilon
@@ -42,7 +49,7 @@ expr_prime()
     }
 }
 
-term()
+void term()
 {
     /* term -> factor term' */
 
@@ -50,7 +57,7 @@ term()
     term_prime();
 }
 
-term_prime()
+void term_prime()
 {
     /* term' -> TIMES factor term'
      *       |   epsilon
@@ -64,7 +71,7 @@ term_prime()
     }
 }
 
-factor()
+void factor()
 {
     /* factor   ->    NUM_OR_ID
      *          |     LP expression RP
