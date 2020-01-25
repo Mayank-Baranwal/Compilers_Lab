@@ -9,13 +9,11 @@ void term();
 void term_prime();
 void factor();
 
-
 void statements()
 {
     /*  statements -> expression SEMI
      *             |  expression SEMI statements
      */
-
     expression();
 
     if( match( SEMI ) )
@@ -26,6 +24,10 @@ void statements()
     if( !match(EOI) )
         statements();			/* Do another statement. */
 }
+
+
+
+
 
 void expression()
 {
