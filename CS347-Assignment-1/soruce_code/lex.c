@@ -42,12 +42,12 @@ int lex(){
             return SEMI;
            case '+':
             return PLUS;
-           case '-':
-            return MINUS;
+           // case '-':
+           //  return MINUS;
            case '*':
             return TIMES;
-           case '/':
-            return DIV;
+           // case '/':
+           //  return DIV;
            case '(':
             return LP;
            case ')':
@@ -116,4 +116,3 @@ void advance(void){
 
     Lookahead = lex();
 }
-

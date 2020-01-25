@@ -9,7 +9,7 @@
 #define DIV			8
 #define IF 			9
 #define THEN		10
-#define WHILE		11	
+#define WHILE		11
 #define DO			12
 #define BEGIN		13
 #define END 		14
@@ -17,5 +17,4 @@
 
 extern char *yytext;		/* in lex.c			*/
 extern int yyleng;
-extern yylineno;
-
+extern int yylineno;
