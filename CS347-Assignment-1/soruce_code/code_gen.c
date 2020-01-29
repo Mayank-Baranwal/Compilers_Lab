@@ -20,6 +20,7 @@ void write_in_file (char * filename, char * text)
 
 char *tp;
 int done = 0;
+// int symbol_table[500][]
 
 void stmt_list ()
 {

@@ -21,5 +21,5 @@ void main ()
 		write_in_file("Lexemes.txt","<END_OF_INPUT> ");
 	else
     	fprintf( stderr,"%d: Grammar mismatch\n", yylineno );
-	convert();
+	// convert();
 }

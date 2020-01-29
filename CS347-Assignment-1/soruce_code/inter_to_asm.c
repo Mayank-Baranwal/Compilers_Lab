@@ -54,16 +54,7 @@ void convert(){
 
 		printf("%d\n\n", cnt);
 
-		if(cnt==3)
-		{
-			if(word[1][1]=='\0')
-			{
-				if(word[2][0]=='_')
-				{
-					fprintf()
-				}
-			}
-		}
+		
 	}
 
 	// }
