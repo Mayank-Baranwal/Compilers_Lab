@@ -35,24 +35,36 @@ char getRegister(char * s)
     return '\0';
 }
 
-// char * uscore(char * s)
-// {
-// 	bool flag=0;
-// 	if(getRegister(tempvar)=='\0')
-// 	{
-// 		if(tempvar[0]>='0' && tempvar[0]<='9')
-// 			flag=1;
-// 	}
-// 	char ans[40];
-// 	int index=0;
-// 	if(flag==0)
-// 	{
-// 		ans[index++]='_';
-// 	}
-// 	while(*s!='\0')
-// 	{
-// 		ans[index++]=*s;
-// 	}
-// 	ans[index]='\0';
-// 	return ans;
-// }
+
+void uscore(char * s, char * ans)
+{
+	int flag=0;
+
+    // char ans[40];
+	
+    if(getRegister(s)=='\0' )
+	{
+        char *tp = s;
+
+        while (*tp != '\0'){
+            if (!isdigit(*tp)){
+                flag = 1;
+                break;
+            }
+            tp++;
+        }
+	}
+	int index=0;
+	if(flag==1)
+	{
+		ans[index++]='_';
+	}
+	while(*s!='\0')
+	{
+		ans[index++]=*s;
+        s++;
+	}
+	ans[index]='\0';
+    // printf("%s\n", ans);
+	return;
+}

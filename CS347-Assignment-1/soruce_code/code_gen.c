@@ -60,7 +60,16 @@ void stmt ()
             advance();
 
         tempvar=expr();
-        sprintf(tp, "%0.*s = %s\n\09", yyleng_temp, yytext_temp, tempvar);
+
+        char help[30], help2[30];
+        char yy[50];
+        for(int i=0;i<yyleng_temp;i++)
+            yy[i]=yytext_temp[i];
+        yy[yyleng_temp]='\0';
+        uscore(yy, help);
+        uscore(tempvar, help2);
+        sprintf(tp, "%s = %s\n\09", help, help2);
+
         write_in_file("Intermediate.txt", tp);
         freename(tempvar);
         return;
@@ -71,8 +80,11 @@ void stmt ()
         write_in_file("Intermediate.txt", tp);
         advance();
         tempvar=expr();
-        sprintf(tp, "%s\n)\n", tempvar);
+        char help[30];
+        uscore(tempvar, help);
+        sprintf(tp, "%s\n)\n", help);
         write_in_file("Intermediate.txt", tp);
+        freename(tempvar);
         if(!match(THEN))
             fprintf( stderr,"%d: Inserting missing then\n", yylineno );
         else
@@ -83,7 +95,6 @@ void stmt ()
         stmt();
        	sprintf(tp, "}\n");
         write_in_file("Intermediate.txt", tp);
-        freename(tempvar);
         return;
     }
     if (match(WHILE))
@@ -92,8 +103,11 @@ void stmt ()
         write_in_file("Intermediate.txt", tp);
         advance();
         tempvar=expr();
-        sprintf(tp, "%s)\n", tempvar);
+        char help[30];
+        uscore(tempvar, help);
+        sprintf(tp, "%s)\n", help);
         write_in_file("Intermediate.txt", tp);
+        freename(tempvar);
         if(!match(DO))
             fprintf( stderr,"%d: Inserting missing do\n", yylineno );
         else
@@ -104,7 +118,6 @@ void stmt ()
         stmt();
         sprintf(tp, "}\n");
         write_in_file("Intermediate.txt", tp);
-        freename(tempvar);
         return;
     }
 
@@ -156,11 +169,19 @@ char   *expr ()
         freename(tempvar);
         tempvarRes=newname();
         tempvar=newname();
-        sprintf(tp, "%s = %s\n", tempvar, tempvarRes);
+        
+        char help[30], help2[30];
+        uscore(tempvar, help);
+        uscore(tempvarRes, help2);
+
+        sprintf(tp, "%s = %s\n", help, help2);
         write_in_file("Intermediate.txt", tp);
         advance();
         tempvar2=expression();
-        sprintf(tp, "%s = %s > %s\n",tempvarRes,tempvar,tempvar2);
+        char help3[30];
+        uscore(tempvar2, help3);
+
+        sprintf(tp, "%s = %s > %s\n",help2,help,help3);
         write_in_file("Intermediate.txt", tp);
         freename(tempvar2);
         freename(tempvar);
@@ -171,11 +192,22 @@ char   *expr ()
         freename(tempvar);
         tempvarRes=newname();
         tempvar=newname();
-        sprintf(tp, "%s = %s\n", tempvar, tempvarRes);
+
+        char help[30], help2[30];
+        uscore(tempvar, help);
+        uscore(tempvarRes, help2);
+
+        sprintf(tp, "%s = %s\n", help, help2);
+
         write_in_file("Intermediate.txt", tp);
         advance();
         tempvar2=expression();
-        sprintf(tp, "%s = %s < %s\n",tempvarRes,tempvar,tempvar2);
+        
+        char help3[30];
+        uscore(tempvar2, help3);
+
+        sprintf(tp, "%s = %s < %s\n",help2,help,help3);
+        
         write_in_file("Intermediate.txt", tp);
         freename(tempvar2);
         freename(tempvar);
@@ -186,11 +218,18 @@ char   *expr ()
         freename(tempvar);
         tempvarRes=newname();
         tempvar=newname();
-        sprintf(tp, "%s = %s\n", tempvar, tempvarRes);
+        char help[30], help2[30];
+        uscore(tempvar, help);
+        uscore(tempvarRes, help2);
+        sprintf(tp, "%s = %s\n", help, help2);
         write_in_file("Intermediate.txt", tp);
         advance();
         tempvar2=expression();
-        sprintf(tp, "%s = %s == %s\n",tempvarRes,tempvar,tempvar2);
+        char help3[30];
+        uscore(tempvar2, help3);
+
+        sprintf(tp, "%s = %s == %s\n",help2,help,help3);
+
         write_in_file("Intermediate.txt", tp);
         freename(tempvar2);
         freename(tempvar);
@@ -219,7 +258,12 @@ char   *expression()
         {
             advance();
             tempvar2 = term();
-            sprintf(tp, "%s += %s\n", tempvar, tempvar2 );
+            
+            char help[30], help2[30];
+            uscore(tempvar, help);
+            uscore(tempvar2, help2);
+
+            sprintf(tp, "%s += %s\n", help, help2 );
         	write_in_file("Intermediate.txt", tp);
             freename( tempvar2 );
         }
@@ -227,8 +271,13 @@ char   *expression()
         {
             advance();
             tempvar2 = term();
-            sprintf(tp, "%s -= %s\n", tempvar, tempvar2 );
-        	write_in_file("Intermediate.txt", tp);
+            
+            char help[30], help2[30];
+            uscore(tempvar, help);
+            uscore(tempvar2, help2);
+
+            sprintf(tp, "%s -= %s\n", help, help2 );
+            write_in_file("Intermediate.txt", tp);
             freename( tempvar2 );
         }
         else
@@ -250,7 +299,12 @@ char    *term()
         {
             advance();
             tempvar2 = factor();
-            sprintf(tp, "%s *= %s\n", tempvar, tempvar2 );
+            
+            char help[30], help2[30];
+            uscore(tempvar, help);
+            uscore(tempvar2, help2);
+
+            sprintf(tp, "%s *= %s\n", help, help2 );
         	write_in_file("Intermediate.txt", tp);
             freename( tempvar2 );
         }
@@ -258,8 +312,13 @@ char    *term()
         {
             advance();
             tempvar2 = factor();
-            sprintf(tp, "%s /= %s\n", tempvar, tempvar2 );
-        	write_in_file("Intermediate.txt", tp);
+            
+            char help[30], help2[30];
+            uscore(tempvar, help);
+            uscore(tempvar2, help2);
+
+            sprintf(tp, "%s /= %s\n", help, help2 );
+            write_in_file("Intermediate.txt", tp);
             freename( tempvar2 );
         }
         else
