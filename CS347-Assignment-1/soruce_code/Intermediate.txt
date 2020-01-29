@@ -1,5 +1,12 @@
 begin{
-begin{
+t0 = _a
+t1 = _b
+t2 = _c
+t1 *= t2
+t0 += t1
+t1 = _d
+t0 += t1
+_r = t0
 if(
 t0 = _a
 t1 = t0
@@ -8,39 +15,7 @@ t0 = t1 == t2
 t0
 )
 then{
-while(
-t0 = _c
-t1 = t0
-t2 = 4
-t0 = t1 == t2
-t0
-)
-do{
-begin{
-if(
-t0 = _a
-t1 = t0
-t2 = 6
-t0 = t1 == t2
-t0
-)
-then{
-t0 = 6
-_b = t0
-}
-}end
-}
-}
-}end
-if(
-t0 = _a
-t1 = t0
-t2 = 5
-t0 = t1 == t2
-t0
-)
-then{
-t0 = 6
+t0 = 5
 _b = t0
 }
 }end

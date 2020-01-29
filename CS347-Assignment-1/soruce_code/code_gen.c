@@ -13,6 +13,7 @@ char    *expression ( void );
 char symbol_entry[500][100];
 int symtable_size=0;
 
+//Write gieven string in specified file
 void write_in_file (char * filename, char * text)
 {
 	FILE *fp = fopen(filename, "a+");
@@ -20,6 +21,7 @@ void write_in_file (char * filename, char * text)
 	fclose(fp);
 }
 
+// Write integer in file
 void write_in_file_int (char * filename, int val)
 {
 	FILE *fp = fopen(filename, "a+");
@@ -27,22 +29,30 @@ void write_in_file_int (char * filename, int val)
 	fclose(fp);
 }
 
+//Generate symbol table during parsing
 int in_symtable(char * s)
 {
-		for(int i=0;i<symtable_size;i++)
-		{
-			if(strcmp(s,symbol_entry[i])==0)
-				return i;
-		}
-		return -1;
+	for(int i=0;i<symtable_size;i++)
+	{
+		if(strcmp(s,symbol_entry[i])==0)
+			return i;
+	}
+	return -1;
 }
 
 char *tp;
 int done = 0;
 
-
+//Starting production of grammar generation
 void stmt_list ()
 {
+    /* stmt_list ->   stmt
+                    | stmt_list'
+
+        stmt_list' -> stmt; stmt_list'
+                    | epsilon
+    */
+
     if (!done){
 		done = 1;
 		tp = (char*)malloc (100*sizeof(char));
@@ -65,6 +75,12 @@ void stmt_list ()
 
 void stmt ()
 {
+    /*stmt ->   id := expr
+                | if expr then stmt
+                | while expr do stmt
+                | begin opt_stmts end 
+    */    
+
     char * tempvar;
     if(match(NUM_OR_ID))
     {
@@ -78,37 +94,38 @@ void stmt ()
         else
             advance();
 
-				char sym_name[50];
-				for(int i=0;i<yyleng_temp;i++)
-					sym_name[i]=yytext_temp[i];
-				sym_name[yyleng_temp]='\0';
-				//
-				int sym_index=in_symtable(sym_name);
-				if(sym_index==-1)
-				{
-					strcpy(symbol_entry[symtable_size],sym_name);
-					sym_index=symtable_size;
-					symtable_size++;
-				}
-				sym_index++;
+		char sym_name[50];
+		for(int i=0;i<yyleng_temp;i++)
+			sym_name[i]=yytext_temp[i];
+		sym_name[yyleng_temp]='\0';
+		//
+		int sym_index=in_symtable(sym_name);
+		if(sym_index==-1)
+		{
+			strcpy(symbol_entry[symtable_size],sym_name);
+			sym_index=symtable_size;
+			symtable_size++;
+		}
+		sym_index++;
 
-				write_in_file("Lexemes.txt","<ID,");
-				write_in_file_int("Lexemes.txt",sym_index);
-				write_in_file("Lexemes.txt","> ");
-				tempvar=expr();
+		write_in_file("Lexemes.txt","<ID,");
+		write_in_file_int("Lexemes.txt",sym_index);
+		write_in_file("Lexemes.txt","> ");
+		tempvar=expr();
 
-				char help[30], help2[30];
-				char yy[50];
-				for(int i=0;i<yyleng_temp;i++)
-						yy[i]=yytext_temp[i];
-				yy[yyleng_temp]='\0';
-				uscore(yy, help);
-				uscore(tempvar, help2);
-				sprintf(tp, "%s = %s\n", help, help2);
+		char help[30], help2[30];
+		char yy[50];
+		for(int i=0;i<yyleng_temp;i++)
+				yy[i]=yytext_temp[i];
+		yy[yyleng_temp]='\0';
+		uscore(yy, help);
+		uscore(tempvar, help2);
+		sprintf(tp, "%s = %s\n", help, help2);
         write_in_file("Intermediate.txt", tp);
         freename(tempvar);
         return;
     }
+    //check if "IF" case
     if (match(IF))
     {
         sprintf(tp, "if(\n");
@@ -129,9 +146,11 @@ void stmt ()
         write_in_file("Intermediate.txt", tp);
         stmt();
        	sprintf(tp, "}\n");
+        //Writing intermediate symbols
         write_in_file("Intermediate.txt", tp);
         return;
     }
+    //check "WHILE" terminal encountered
     if (match(WHILE))
     {
         sprintf(tp, "while(\n");
@@ -155,7 +174,7 @@ void stmt ()
         write_in_file("Intermediate.txt", tp);
         return;
     }
-
+    //check "BEGIN" terminal
     if(match(BEGIN))
     {
         sprintf(tp, "begin{\n");
@@ -164,13 +183,17 @@ void stmt ()
         opt_stmts();
         return;
     }
-
+    // All cases covered -> Must be a syntax error
     fprintf( stderr,"%d: Grammar mismatch\n", yylineno );
     exit(0);
 }
 
 void opt_stmts ()
 {
+    /* opt_stmts -> stmt_lists
+                    | epsilon
+    */
+
     if(match(END))
     {
         advance();
@@ -191,8 +214,11 @@ void opt_stmts ()
 
 char   *expr ()
 {
-    //relational
-    // printf("expr\n");
+    /* expr -> expression < expression
+             | expression = expression
+             | expression = expression
+             | expression
+    */
 
     char * tempvar;
     char * tempvarRes;
@@ -216,51 +242,55 @@ char   *expr ()
         freename(tempvar);
         return tempvarRes;
     }
+    // Less than equal to case
     else if (match(LT))
     {
-			freename(tempvar);
-			tempvarRes=newname();
-			tempvar=newname();
+		freename(tempvar);
+		tempvarRes=newname();
+		tempvar=newname();
 
-			sprintf(tp, "%s = %s\n", tempvar, tempvarRes);
-			write_in_file("Intermediate.txt", tp);
-			advance();
-			tempvar2=expression();
+		sprintf(tp, "%s = %s\n", tempvar, tempvarRes);
+		write_in_file("Intermediate.txt", tp);
+		advance();
+		tempvar2=expression();
 
-			sprintf(tp, "%s = %s < %s\n",tempvarRes,tempvar,tempvar2);
-			write_in_file("Intermediate.txt", tp);
-			freename(tempvar2);
-			freename(tempvar);
-			return tempvarRes;
+		sprintf(tp, "%s = %s < %s\n",tempvarRes,tempvar,tempvar2);
+		write_in_file("Intermediate.txt", tp);
+		freename(tempvar2);
+		freename(tempvar);
+		return tempvarRes;
     }
+    // Equal to case
     else if (match(ET))
     {
-			freename(tempvar);
-			tempvarRes=newname();
-			tempvar=newname();
+		freename(tempvar);
+		tempvarRes=newname();
+		tempvar=newname();
 
-			sprintf(tp, "%s = %s\n", tempvar, tempvarRes);
-			write_in_file("Intermediate.txt", tp);
-			advance();
-			tempvar2=expression();
+		sprintf(tp, "%s = %s\n", tempvar, tempvarRes);
+		write_in_file("Intermediate.txt", tp);
+		advance();
+		tempvar2=expression();
 
-			sprintf(tp, "%s = %s == %s\n",tempvarRes,tempvar,tempvar2);
-			write_in_file("Intermediate.txt", tp);
-			freename(tempvar2);
-			freename(tempvar);
-			return tempvarRes;
+		sprintf(tp, "%s = %s == %s\n",tempvarRes,tempvar,tempvar2);
+		write_in_file("Intermediate.txt", tp);
+		freename(tempvar2);
+		freename(tempvar);
+		return tempvarRes;
     }
     else
     {
         return tempvar;
     }
-
+    //return register with temporary value
 }
 
 char   *expression()
 {
     /* expression -> term expression'
-     * expression' -> PLUS term expression' |  epsilon
+     * expression' -> + term expression' 
+                    | - term expression' 
+                    | epsilon
      */
     // printf("expression\n");
 
@@ -271,19 +301,19 @@ char   *expression()
     {
         if(match(PLUS))
         {
-          advance();
-          tempvar2 = term();
-          sprintf(tp, "%s += %s\n", tempvar, tempvar2 );
-      		write_in_file("Intermediate.txt", tp);
-          freename( tempvar2 );
+            advance();
+            tempvar2 = term();
+            sprintf(tp, "%s += %s\n", tempvar, tempvar2 );
+            	write_in_file("Intermediate.txt", tp);
+            freename( tempvar2 );
         }
         else if(match(MINUS))
         {
-					advance();
-					tempvar2 = term();
-					sprintf(tp, "%s -= %s\n", tempvar, tempvar2 );
-					write_in_file("Intermediate.txt", tp);
-					freename( tempvar2 );
+			advance();
+			tempvar2 = term();
+			sprintf(tp, "%s -= %s\n", tempvar, tempvar2 );
+			write_in_file("Intermediate.txt", tp);
+			freename( tempvar2 );
         }
         else
             break;
@@ -293,7 +323,10 @@ char   *expression()
 
 char    *term()
 {
-    // printf("term\n");
+    /* term -> factor * factor
+             | factor / factor
+             | factor
+    */
 
     char  *tempvar, *tempvar2 ;
 
@@ -310,11 +343,11 @@ char    *term()
         }
         else if (match (DIV))
         {
-					advance();
-					tempvar2 = factor();
-					sprintf(tp, "%s /= %s\n", tempvar, tempvar2 );
-					write_in_file("Intermediate.txt", tp);
-					freename( tempvar2 );
+			advance();
+			tempvar2 = factor();
+			sprintf(tp, "%s /= %s\n", tempvar, tempvar2 );
+			write_in_file("Intermediate.txt", tp);
+			freename( tempvar2 );
         }
         else
             break;
@@ -325,7 +358,8 @@ char    *term()
 
 char    *factor()
 {
-    // printf("factor\n");
+    /* factor -> NUM_OR_ID
+    */
 
     char *tempvar;
 
@@ -340,50 +374,48 @@ char    *factor()
   * number-of-characters count from the next argument (yyleng).
   */
 
+		char sym_name[50];
+		for(int i=0;i<yyleng;i++)
+			sym_name[i]=yytext[i];
 
 
-				char sym_name[50];
-				for(int i=0;i<yyleng;i++)
-					sym_name[i]=yytext[i];
+		sym_name[yyleng]='\0';
 
+		int flag=0;
+		for(int i=0;i<strlen(sym_name);i++)
+		{
+			if(sym_name[i]>='0' && sym_name[i]<='9')
+				continue;
+			flag=1;
+			break;
+		}
+		if(flag==0)
+		{
+			write_in_file("Lexemes.txt","<const,");
+			write_in_file("Lexemes.txt",sym_name);
+		}
+		else
+		{
+			write_in_file("Lexemes.txt","<ID,");
+			int sym_index=in_symtable(sym_name);
+			if(sym_index==-1)
+			{
+				strcpy(symbol_entry[symtable_size],sym_name);
+				sym_index=symtable_size;
+				symtable_size++;
+			}
+			sym_index++;
+			write_in_file_int("Lexemes.txt",sym_index);
+		}
 
-				sym_name[yyleng]='\0';
+		write_in_file("Lexemes.txt","> ");
 
-				int flag=0;
-				for(int i=0;i<strlen(sym_name);i++)
-				{
-					if(sym_name[i]>='0' && sym_name[i]<='9')
-						continue;
-					flag=1;
-					break;
-				}
-				if(flag==0)
-				{
-					write_in_file("Lexemes.txt","<const,");
-					write_in_file("Lexemes.txt",sym_name);
-				}
-				else
-				{
-					write_in_file("Lexemes.txt","<ID,");
-					int sym_index=in_symtable(sym_name);
-					if(sym_index==-1)
-					{
-						strcpy(symbol_entry[symtable_size],sym_name);
-						sym_index=symtable_size;
-						symtable_size++;
-					}
-					sym_index++;
-					write_in_file_int("Lexemes.txt",sym_index);
-				}
-
-				write_in_file("Lexemes.txt","> ");
-
-				char help[30];
-				char yy[50];
-				for(int i=0;i<yyleng;i++)
-						yy[i]=yytext[i];
-				yy[yyleng]='\0';
-				uscore(yy, help);
+		char help[30];
+		char yy[50];
+		for(int i=0;i<yyleng;i++)
+				yy[i]=yytext[i];
+		yy[yyleng]='\0';
+		uscore(yy, help);
         sprintf(tp, "%s = %s\n", tempvar = newname(), help );
         write_in_file("Intermediate.txt", tp);
         advance();

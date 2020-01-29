@@ -4,6 +4,7 @@ char  *Names[] = { "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7" };
 char  Register_Names[] = { 'A', 'B', 'C', 'D', 'E', 'F', 'H', 'L' };
 char  **Namep  = Names;
 
+//Assign the topmost register for use
 char  *newname(void)
 {
     if( Namep >= &Names[ sizeof(Names)/sizeof(*Names) ] )
@@ -15,7 +16,7 @@ char  *newname(void)
     return( *Namep++ );
 }
 
-
+//Pop off the top most register
 void freename(char *s)
 {
     if( Namep > Names )
@@ -25,6 +26,7 @@ void freename(char *s)
                                 yylineno );
 }
 
+//Check if string corresponds to a token
 char getRegister(char * s)
 {
     for(int i=0;i<8;i++)
@@ -35,13 +37,11 @@ char getRegister(char * s)
     return '\0';
 }
 
-
+//Add '_' infont of variables for intermediate file generation
 void uscore(char * s, char * ans)
 {
 	int flag=0;
 
-    // char ans[40];
-	
     if(getRegister(s)=='\0' )
 	{
         char *tp = s;

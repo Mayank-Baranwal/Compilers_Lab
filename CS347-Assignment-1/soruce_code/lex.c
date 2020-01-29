@@ -73,6 +73,7 @@ int lex(){
             else if(!isalnum(*current))
                fprintf(stderr, "Not alphanumeric <%c>\n", *current);
             else{
+                //identify string based lexemes
                 char temp[50];
                 int i=0;
                while(isalnum(*current))
@@ -133,7 +134,8 @@ int match(int token){
 #define ET 			18
    if (token == Lookahead)
    {
-	   	FILE * fp = fopen("Lexemes.txt", "a+");
+	   	//Print lexemes for different tokens
+      FILE * fp = fopen("Lexemes.txt", "a+");
    		if(token==1)
    			fprintf(fp,"<SEMI> ");
    		else if(token==2)
