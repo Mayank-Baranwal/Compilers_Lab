@@ -11,6 +11,13 @@ char    *factor     ( void );
 char    *term       ( void );
 char    *expression ( void );
 
+void write_in_file (char * filename, char * text)
+{
+	FILE *fp = fopen(filename, "a+");
+	fprintf(fp, "%s",text);
+	fclose(fp);
+}
+
 void stmt_list ()
 {
     char * tempvar;
@@ -30,9 +37,12 @@ void stmt_list ()
 void stmt ()
 {
     char * tempvar;
-    // printf("stmt\n");
+
+    if(match(EOI))
+    	return;
     if(match(NUM_OR_ID))
     {
+    	write_in_file("Lexemes.txt","<ID> ");
         int yyleng_temp=yyleng;
         char yytext_temp[50];
         strcpy(yytext_temp,yytext);
@@ -97,6 +107,7 @@ void opt_stmts ()
     if(match(END))
     {
         advance();
+    	write_in_file("Lexemes.txt","<END> ");
         printf("}end\n");
         return;
     }
@@ -104,6 +115,7 @@ void opt_stmts ()
     if(match(END))
     {
         advance();
+    	write_in_file("Lexemes.txt","<END> ");
         printf("}end\n");
     }
 }
@@ -209,14 +221,14 @@ char    *term()
         {
             advance();
             tempvar2 = factor();
-            printf("%s <- %s * %s\n", tempvar, tempvar2 );
+            printf("%s <- %s * %s\n", tempvar, tempvar, tempvar2 );
             freename( tempvar2 );
         }
         else if (match (DIV))
         {
             advance();
             tempvar2 = factor();
-            printf("%s <- %s / %s\n", tempvar, tempvar2 );
+            printf("%s <- %s / %s\n", tempvar, tempvar, tempvar2 );
             freename( tempvar2 );
         }
         else
@@ -242,7 +254,7 @@ char    *factor()
   * to print the string. The ".*" tells printf() to take the maximum-
   * number-of-characters count from the next argument (yyleng).
   */
-
+    	write_in_file("Lexemes.txt","<NUM_OR_ID> ");
         printf("%s <- %0.*s\n", tempvar = newname(), yyleng, yytext );
         advance();
     }
