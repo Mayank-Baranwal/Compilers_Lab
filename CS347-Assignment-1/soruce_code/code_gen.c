@@ -10,6 +10,8 @@ char * expr();
 char    *factor     ( void );
 char    *term       ( void );
 char    *expression ( void );
+char symbol_entry[500][100];
+int symtable_size=0;
 
 void write_in_file (char * filename, char * text)
 {
@@ -18,9 +20,26 @@ void write_in_file (char * filename, char * text)
 	fclose(fp);
 }
 
+void write_in_file_int (char * filename, int val)
+{
+	FILE *fp = fopen(filename, "a+");
+	fprintf(fp, "%d",val);
+	fclose(fp);
+}
+
+int in_symtable(char * s)
+{
+		for(int i=0;i<symtable_size;i++)
+		{
+			if(strcmp(s,symbol_entry[i])==0)
+				return i;
+		}
+		return -1;
+}
+
 char *tp;
 int done = 0;
-// int symbol_table[500][]
+
 
 void stmt_list ()
 {
@@ -49,7 +68,7 @@ void stmt ()
     char * tempvar;
     if(match(NUM_OR_ID))
     {
-    	write_in_file("Lexemes.txt","<ID> ");
+
         int yyleng_temp=yyleng;
         char yytext_temp[50];
         strcpy(yytext_temp,yytext);
@@ -59,7 +78,25 @@ void stmt ()
         else
             advance();
 
-        tempvar=expr();
+				char sym_name[50];
+				for(int i=0;i<yyleng_temp;i++)
+					sym_name[i]=yytext_temp[i];
+				sym_name[yyleng_temp]='\0';
+				//
+				int sym_index=in_symtable(sym_name);
+				if(sym_index==-1)
+				{
+					strcpy(symbol_entry[symtable_size],sym_name);
+					sym_index=symtable_size;
+					symtable_size++;
+				}
+				sym_index++;
+
+				write_in_file("Lexemes.txt","<ID,");
+				write_in_file_int("Lexemes.txt",sym_index);
+				write_in_file("Lexemes.txt","> ");
+
+				tempvar=expr();
         sprintf(tp, "%0.*s = %s\n\09", yyleng_temp, yytext_temp, tempvar);
         write_in_file("Intermediate.txt", tp);
         freename(tempvar);
@@ -285,7 +322,45 @@ char    *factor()
   * to print the string. The ".*" tells printf() to take the maximum-
   * number-of-characters count from the next argument (yyleng).
   */
-    	write_in_file("Lexemes.txt","<NUM_OR_ID> ");
+
+
+
+				char sym_name[50];
+				for(int i=0;i<yyleng;i++)
+					sym_name[i]=yytext[i];
+
+
+				sym_name[yyleng]='\0';
+
+				int flag=0;
+				for(int i=0;i<strlen(sym_name);i++)
+				{
+					if(sym_name[i]>='0' && sym_name[i]<='9')
+						continue;
+					flag=1;
+					break;
+				}
+				if(flag==0)
+				{
+					write_in_file("Lexemes.txt","<const,");
+					write_in_file("Lexemes.txt",sym_name);
+				}
+				else
+				{
+					write_in_file("Lexemes.txt","<ID,");
+					int sym_index=in_symtable(sym_name);
+					if(sym_index==-1)
+					{
+						strcpy(symbol_entry[symtable_size],sym_name);
+						sym_index=symtable_size;
+						symtable_size++;
+					}
+					sym_index++;
+					write_in_file_int("Lexemes.txt",sym_index);
+				}
+
+				write_in_file("Lexemes.txt","> ");
+
         sprintf(tp, "%s = %0.*s\n", tempvar = newname(), yyleng, yytext );
         write_in_file("Intermediate.txt", tp);
         advance();

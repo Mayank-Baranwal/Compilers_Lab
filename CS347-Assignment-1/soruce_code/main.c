@@ -21,5 +21,13 @@ void main ()
 		write_in_file("Lexemes.txt","<END_OF_INPUT> ");
 	else
     	fprintf( stderr,"%d: Grammar mismatch\n", yylineno );
+	fp=fopen("Symbol_Table.txt","w");
+	fprintf(fp, "ID\t\tSymbol\n");
+	for(int i=0;i<symtable_size;i++)
+	{
+		fprintf(fp, "%d\t\t%s\n", i+1, symbol_entry[i]);
+	}
+	fclose(fp);
+	printf("\"Lexemes.txt\", \"Symbol_Table.txt\" and \"Intermediate.txt\" generated\n");
 	// convert();
 }
