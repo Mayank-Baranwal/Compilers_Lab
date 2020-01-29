@@ -11,6 +11,13 @@ char    *factor     ( void );
 char    *term       ( void );
 char    *expression ( void );
 
+void write_in_file (char * filename, char * text)
+{
+	FILE *fp = fopen(filename, "a+");
+	fprintf(fp, "%s",text);
+	fclose(fp);
+}
+
 void stmt_list ()
 {
     char * tempvar;
@@ -30,23 +37,26 @@ void stmt_list ()
 void stmt ()
 {
     char * tempvar;
-    // printf("stmt\n");
+
+    if(match(EOI))
+    	return;
     if(match(NUM_OR_ID))
     {
+    	write_in_file("Lexemes.txt","<ID> ");
         int yyleng_temp=yyleng;
         char yytext_temp[50];
         strcpy(yytext_temp,yytext);
         advance();
-        if(match(COLET))
-        {
+        if(!match(COLET))
+            fprintf( stderr,"%d: Inserting missing colon equal to\n", yylineno );
+        else
             advance();
 
-            tempvar=expr();
-            printf("%0.*s <- %s\n", yyleng_temp, yytext_temp, tempvar);
-            freename(tempvar);
-        }  
+        tempvar=expr();
+        printf("%0.*s = %s\n", yyleng_temp, yytext_temp, tempvar);
+        freename(tempvar);
         return;
-    }   
+    }
     if (match(IF))
     {
         printf("if(\n");
@@ -54,13 +64,14 @@ void stmt ()
         tempvar=expr();
         printf("%s\n", tempvar);
         printf(")\n");
-        if(match(THEN))
-        {
-            printf("then{\n");
+        if(!match(THEN))
+            fprintf( stderr,"%d: Inserting missing then\n", yylineno );
+        else
             advance();
-            stmt();
-            printf("}\n");
-        }
+
+        printf("then{\n");
+        stmt();
+        printf("}\n");
         freename(tempvar);
         return;
     }
@@ -71,13 +82,14 @@ void stmt ()
         tempvar=expr();
         printf("%s\n", tempvar);
         printf(")\n");
-        if(match(DO))
-        {
-            printf("do{\n");
+        if(!match(DO))
+            fprintf( stderr,"%d: Inserting missing do\n", yylineno );
+        else
             advance();
-            stmt();
-            printf("}\n");
-        }
+
+       	printf("do{\n");
+        stmt();
+        printf("}\n");
         freename(tempvar);
         return;
     }
@@ -90,6 +102,8 @@ void stmt ()
         return;
     }
 
+    fprintf( stderr,"%d: Grammar mismatch\n", yylineno );
+
 }
 
 void opt_stmts ()
@@ -97,15 +111,17 @@ void opt_stmts ()
     if(match(END))
     {
         advance();
+    	write_in_file("Lexemes.txt","<END> ");
         printf("}end\n");
         return;
     }
     stmt_list();
-    if(match(END))
-    {
+    if(!match(END))
+        fprintf( stderr,"%d: Inserting missing end\n", yylineno);
+   	else
         advance();
-        printf("}end\n");
-    }
+	write_in_file("Lexemes.txt","<END> ");
+    printf("}end\n");
 }
 
 char   *expr ()
@@ -123,10 +139,10 @@ char   *expr ()
         freename(tempvar);
         tempvarRes=newname();
         tempvar=newname();
-        printf("%s <- %s\n", tempvar, tempvarRes);
+        printf("%s = %s\n", tempvar, tempvarRes);
         advance();
         tempvar2=expression();
-        printf("%s <-  %s > %s\n",tempvarRes,tempvar,tempvar2);
+        printf("%s = %s > %s\n",tempvarRes,tempvar,tempvar2);
         freename(tempvar2);
         freename(tempvar);
         return tempvarRes;
@@ -136,10 +152,10 @@ char   *expr ()
         freename(tempvar);
         tempvarRes=newname();
         tempvar=newname();
-        printf("%s <- %s\n", tempvar, tempvarRes);
+        printf("%s = %s\n", tempvar, tempvarRes);
         advance();
         tempvar2=expression();
-        printf("%s <-  %s < %s\n",tempvarRes,tempvar,tempvar2);
+        printf("%s = %s < %s\n",tempvarRes,tempvar,tempvar2);
         freename(tempvar2);
         freename(tempvar);
         return tempvarRes;
@@ -149,10 +165,10 @@ char   *expr ()
         freename(tempvar);
         tempvarRes=newname();
         tempvar=newname();
-        printf("%s <- %s\n", tempvar, tempvarRes);
+        printf("%s = %s\n", tempvar, tempvarRes);
         advance();
         tempvar2=expression();
-        printf("%s <-  %s = %s\n",tempvarRes,tempvar,tempvar2);
+        printf("%s = %s == %s\n",tempvarRes,tempvar,tempvar2);
         freename(tempvar2);
         freename(tempvar);
         return tempvarRes;
@@ -180,14 +196,14 @@ char   *expression()
         {
             advance();
             tempvar2 = term();
-            printf("%s <- %s + %s\n", tempvar, tempvar, tempvar2 );
+            printf("%s += %s\n", tempvar, tempvar2 );
             freename( tempvar2 );
         }
         else if(match(MINUS))
         {
             advance();
             tempvar2 = term();
-            printf("%s = %s - %s\n", tempvar, tempvar, tempvar2 );
+            printf("%s -= %s\n", tempvar, tempvar2 );
             freename( tempvar2 );
         }
         else
@@ -209,14 +225,14 @@ char    *term()
         {
             advance();
             tempvar2 = factor();
-            printf("%s <- %s * %s\n", tempvar, tempvar2 );
+            printf("%s *= %s\n", tempvar, tempvar2 );
             freename( tempvar2 );
         }
         else if (match (DIV))
         {
             advance();
             tempvar2 = factor();
-            printf("%s <- %s / %s\n", tempvar, tempvar2 );
+            printf("%s /= %s\n", tempvar, tempvar2 );
             freename( tempvar2 );
         }
         else
@@ -242,8 +258,8 @@ char    *factor()
   * to print the string. The ".*" tells printf() to take the maximum-
   * number-of-characters count from the next argument (yyleng).
   */
-
-        printf("%s <- %0.*s\n", tempvar = newname(), yyleng, yytext );
+    	write_in_file("Lexemes.txt","<NUM_OR_ID> ");
+        printf("%s = %0.*s\n", tempvar = newname(), yyleng, yytext );
         advance();
     }
     // else if( match(LP) )
@@ -260,4 +276,3 @@ char    *factor()
 
     return tempvar;
 }
-

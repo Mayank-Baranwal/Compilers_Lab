@@ -13,6 +13,10 @@
 
 void main ()
 {
+	// FILE * fp=fopen("Lexemes.txt","w");
+	// fclose(fp);
 	// stmt ();
+	// match(EOI);
+
 	convert();
 }

@@ -4,7 +4,7 @@
 // #include <string.h>
 // #include <ctype.h>
 
-FILE* fp1,fp2;
+FILE* fp1,*fp2;
 
 void convert(){
 	fp1 = fopen("Intermediate.txt", "r");
@@ -56,7 +56,13 @@ void convert(){
 
 		if(cnt==3)
 		{
-
+			if(word[1][1]=='\0')
+			{
+				if(word[2][0]=='_')
+				{
+					fprintf()
+				}
+			}
 		}
 	}
 

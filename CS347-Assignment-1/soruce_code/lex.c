@@ -8,6 +8,7 @@ char* yytext = ""; /* Lexeme (not '\0'
 int yyleng   = 0;  /* Lexeme length.           */
 int yylineno = 0;  /* Input line number        */
 
+
 int lex(){
 
    static char input_buffer[1024];
@@ -111,7 +112,66 @@ int match(int token){
    if(Lookahead == -1)
       Lookahead = lex();
 
-   return token == Lookahead;
+#define EOI			0	/* End of input			*/
+#define SEMI		1	/* ; 				*/
+#define PLUS 		2	/* + 				*/
+#define TIMES		3	/* * 				*/
+#define LP			4	/* (				*/
+#define RP			5	/* )				*/
+#define NUM_OR_ID	6	/* Decimal Number or Identifier */
+#define MINUS 		7
+#define DIV			8
+#define IF 			9
+#define THEN		10
+#define WHILE		11
+#define DO			12
+#define BEGIN		13
+#define END 		14
+#define COLET 		15
+#define GT			16
+#define LT			17
+#define ET 			18
+   if (token == Lookahead)
+   {
+	   	FILE * fp = fopen("Lexemes.txt", "a+");
+   		if(token==0)
+   			fprintf(fp,"<END_OF_INPUT> ");
+   		else if(token==1)
+   			fprintf(fp,"<SEMI> ");
+   		else if(token==2)
+   			fprintf(fp,"<PLUS> ");
+   		else if(token==3)
+   			fprintf(fp,"<TIMES> ");
+   		else if(token==4)
+   			fprintf(fp,"<LEFT_PAR> ");
+   		else if(token==5)
+   			fprintf(fp,"<RIGHT_PAR> ");
+   		else if(token==7)
+   			fprintf(fp,"<MINUS> ");
+   		else if(token==8)
+   			fprintf(fp,"<DIV> ");
+   		else if(token==9)
+   			fprintf(fp,"<IF> ");
+   		else if(token==10)
+   			fprintf(fp,"<THEN> ");
+   		else if(token==11)
+   			fprintf(fp,"<WHILE> ");
+   		else if(token==12)
+   			fprintf(fp,"<DO> ");
+   		else if(token==13)
+   			fprintf(fp,"<BEGIN> ");
+   		else if(token==15)
+   			fprintf(fp,"<COLON> <EQUAL> ");
+   		else if(token==16)
+   			fprintf(fp,"<GREATER_THAN> ");
+   		else if(token==17)
+   			fprintf(fp,"<LESS_THAN> ");
+   		else if(token==18)
+   			fprintf(fp,"<EQUAL> ");
+		fclose(fp);
+   		return 1;
+   }
+   return 0;
 }
 
 void advance(void){
