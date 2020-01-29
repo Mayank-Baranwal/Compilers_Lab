@@ -6,11 +6,13 @@
 #include "lex.c"
 #include "name.c"
 #include "code_gen.c"
+#include "inter_to_asm.c"
 
 // #include "basic_parser.c"
 // #include "improved_parser.c"
 
 void main ()
 {
-	stmt ();
+	// stmt ();
+	convert();
 }
