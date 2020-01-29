@@ -1,7 +1,7 @@
 begin{
 begin{
 if(
-t0 = a
+t0 = _a
 t1 = t0
 t2 = 2
 t0 = t1 == t2
@@ -9,15 +9,16 @@ t0
 )
 then{
 while(
-t0 = c
+t0 = _c
 t1 = t0
 t2 = 4
 t0 = t1 == t2
-t0)
+t0
+)
 do{
 begin{
 if(
-t0 = a
+t0 = _a
 t1 = t0
 t2 = 6
 t0 = t1 == t2
@@ -32,7 +33,7 @@ _b = t0
 }
 }end
 if(
-t0 = a
+t0 = _a
 t1 = t0
 t2 = 5
 t0 = t1 == t2
