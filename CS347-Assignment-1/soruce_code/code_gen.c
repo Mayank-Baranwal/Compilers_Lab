@@ -11,7 +11,6 @@ char    *factor     ( void );
 char    *term       ( void );
 char    *expression ( void );
 
-
 void stmt_list ()
 {
     char * tempvar;
@@ -43,7 +42,7 @@ void stmt ()
             advance();
 
             tempvar=expr();
-            printf("%0.*s = %s\n", yyleng_temp, yytext_temp, tempvar);
+            printf("%0.*s <- %s\n", yyleng_temp, yytext_temp, tempvar);
             freename(tempvar);
         }  
         return;
@@ -181,14 +180,14 @@ char   *expression()
         {
             advance();
             tempvar2 = term();
-            printf("%s += %s\n", tempvar, tempvar2 );
+            printf("%s <- %s + %s\n", tempvar, tempvar, tempvar2 );
             freename( tempvar2 );
         }
         else if(match(MINUS))
         {
             advance();
             tempvar2 = term();
-            printf("%s -= %s\n", tempvar, tempvar2 );
+            printf("%s = %s - %s\n", tempvar, tempvar, tempvar2 );
             freename( tempvar2 );
         }
         else
@@ -210,14 +209,14 @@ char    *term()
         {
             advance();
             tempvar2 = factor();
-            printf("%s *= %s\n", tempvar, tempvar2 );
+            printf("%s <- %s * %s\n", tempvar, tempvar2 );
             freename( tempvar2 );
         }
         else if (match (DIV))
         {
             advance();
             tempvar2 = factor();
-            printf("%s /= %s\n", tempvar, tempvar2 );
+            printf("%s <- %s / %s\n", tempvar, tempvar2 );
             freename( tempvar2 );
         }
         else
@@ -244,7 +243,7 @@ char    *factor()
   * number-of-characters count from the next argument (yyleng).
   */
 
-        printf("%s = %0.*s\n", tempvar = newname(), yyleng, yytext );
+        printf("%s <- %0.*s\n", tempvar = newname(), yyleng, yytext );
         advance();
     }
     // else if( match(LP) )
