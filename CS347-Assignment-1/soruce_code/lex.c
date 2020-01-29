@@ -134,9 +134,7 @@ int match(int token){
    if (token == Lookahead)
    {
 	   	FILE * fp = fopen("Lexemes.txt", "a+");
-   		if(token==0)
-   			fprintf(fp,"<END_OF_INPUT> ");
-   		else if(token==1)
+   		if(token==1)
    			fprintf(fp,"<SEMI> ");
    		else if(token==2)
    			fprintf(fp,"<PLUS> ");

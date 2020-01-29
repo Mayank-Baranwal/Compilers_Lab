@@ -18,14 +18,24 @@ void write_in_file (char * filename, char * text)
 	fclose(fp);
 }
 
+char *tp;
+int done = 0;
+
 void stmt_list ()
 {
+    if (!done){
+		done = 1;
+		tp = (char*)malloc (100*sizeof(char));
+	}
+
     char * tempvar;
     while (1)
     {
         stmt();
-        if(match(END))
+        if(match(END) || match(EOI))
+        {
             break;
+        }
         if( match( SEMI ) )
             advance();
         else
@@ -33,13 +43,9 @@ void stmt_list ()
     }
 }
 
-
 void stmt ()
 {
     char * tempvar;
-
-    if(match(EOI))
-    	return;
     if(match(NUM_OR_ID))
     {
     	write_in_file("Lexemes.txt","<ID> ");
@@ -53,57 +59,65 @@ void stmt ()
             advance();
 
         tempvar=expr();
-        printf("%0.*s = %s\n", yyleng_temp, yytext_temp, tempvar);
+        sprintf(tp, "%0.*s = %s\n\09", yyleng_temp, yytext_temp, tempvar);
+        write_in_file("Intermediate.txt", tp);
         freename(tempvar);
         return;
     }
     if (match(IF))
     {
-        printf("if(\n");
+        sprintf(tp, "if(\n");
+        write_in_file("Intermediate.txt", tp);
         advance();
         tempvar=expr();
-        printf("%s\n", tempvar);
-        printf(")\n");
+        sprintf(tp, "%s\n)\n", tempvar);
+        write_in_file("Intermediate.txt", tp);
         if(!match(THEN))
             fprintf( stderr,"%d: Inserting missing then\n", yylineno );
         else
             advance();
 
-        printf("then{\n");
+        sprintf(tp, "then{\n");
+        write_in_file("Intermediate.txt", tp);
         stmt();
-        printf("}\n");
+       	sprintf(tp, "}\n");
+        write_in_file("Intermediate.txt", tp);
         freename(tempvar);
         return;
     }
     if (match(WHILE))
     {
-        printf("while(\n");
+        sprintf(tp, "while(\n");
+        write_in_file("Intermediate.txt", tp);
         advance();
         tempvar=expr();
-        printf("%s\n", tempvar);
-        printf(")\n");
+        sprintf(tp, "%s)\n", tempvar);
+        write_in_file("Intermediate.txt", tp);
         if(!match(DO))
             fprintf( stderr,"%d: Inserting missing do\n", yylineno );
         else
             advance();
 
-       	printf("do{\n");
+       	sprintf(tp, "do{\n");
+        write_in_file("Intermediate.txt", tp);
         stmt();
-        printf("}\n");
+        sprintf(tp, "}\n");
+        write_in_file("Intermediate.txt", tp);
         freename(tempvar);
         return;
     }
 
     if(match(BEGIN))
     {
-        printf("begin{\n");
+        sprintf(tp, "begin{\n");
+        write_in_file("Intermediate.txt", tp);
         advance();
         opt_stmts();
         return;
     }
 
     fprintf( stderr,"%d: Grammar mismatch\n", yylineno );
-
+    exit(0);
 }
 
 void opt_stmts ()
@@ -112,7 +126,8 @@ void opt_stmts ()
     {
         advance();
     	write_in_file("Lexemes.txt","<END> ");
-        printf("}end\n");
+        sprintf(tp, "}end\n");
+        write_in_file("Intermediate.txt", tp);
         return;
     }
     stmt_list();
@@ -121,7 +136,8 @@ void opt_stmts ()
    	else
         advance();
 	write_in_file("Lexemes.txt","<END> ");
-    printf("}end\n");
+    sprintf(tp, "}end\n");
+    write_in_file("Intermediate.txt", tp);
 }
 
 char   *expr ()
@@ -139,10 +155,12 @@ char   *expr ()
         freename(tempvar);
         tempvarRes=newname();
         tempvar=newname();
-        printf("%s = %s\n", tempvar, tempvarRes);
+        sprintf(tp, "%s = %s\n", tempvar, tempvarRes);
+        write_in_file("Intermediate.txt", tp);
         advance();
         tempvar2=expression();
-        printf("%s = %s > %s\n",tempvarRes,tempvar,tempvar2);
+        sprintf(tp, "%s = %s > %s\n",tempvarRes,tempvar,tempvar2);
+        write_in_file("Intermediate.txt", tp);
         freename(tempvar2);
         freename(tempvar);
         return tempvarRes;
@@ -152,10 +170,12 @@ char   *expr ()
         freename(tempvar);
         tempvarRes=newname();
         tempvar=newname();
-        printf("%s = %s\n", tempvar, tempvarRes);
+        sprintf(tp, "%s = %s\n", tempvar, tempvarRes);
+        write_in_file("Intermediate.txt", tp);
         advance();
         tempvar2=expression();
-        printf("%s = %s < %s\n",tempvarRes,tempvar,tempvar2);
+        sprintf(tp, "%s = %s < %s\n",tempvarRes,tempvar,tempvar2);
+        write_in_file("Intermediate.txt", tp);
         freename(tempvar2);
         freename(tempvar);
         return tempvarRes;
@@ -165,10 +185,12 @@ char   *expr ()
         freename(tempvar);
         tempvarRes=newname();
         tempvar=newname();
-        printf("%s = %s\n", tempvar, tempvarRes);
+        sprintf(tp, "%s = %s\n", tempvar, tempvarRes);
+        write_in_file("Intermediate.txt", tp);
         advance();
         tempvar2=expression();
-        printf("%s = %s == %s\n",tempvarRes,tempvar,tempvar2);
+        sprintf(tp, "%s = %s == %s\n",tempvarRes,tempvar,tempvar2);
+        write_in_file("Intermediate.txt", tp);
         freename(tempvar2);
         freename(tempvar);
         return tempvarRes;
@@ -196,14 +218,16 @@ char   *expression()
         {
             advance();
             tempvar2 = term();
-            printf("%s += %s\n", tempvar, tempvar2 );
+            sprintf(tp, "%s += %s\n", tempvar, tempvar2 );
+        	write_in_file("Intermediate.txt", tp);
             freename( tempvar2 );
         }
         else if(match(MINUS))
         {
             advance();
             tempvar2 = term();
-            printf("%s -= %s\n", tempvar, tempvar2 );
+            sprintf(tp, "%s -= %s\n", tempvar, tempvar2 );
+        	write_in_file("Intermediate.txt", tp);
             freename( tempvar2 );
         }
         else
@@ -225,14 +249,16 @@ char    *term()
         {
             advance();
             tempvar2 = factor();
-            printf("%s *= %s\n", tempvar, tempvar2 );
+            sprintf(tp, "%s *= %s\n", tempvar, tempvar2 );
+        	write_in_file("Intermediate.txt", tp);
             freename( tempvar2 );
         }
         else if (match (DIV))
         {
             advance();
             tempvar2 = factor();
-            printf("%s /= %s\n", tempvar, tempvar2 );
+            sprintf(tp, "%s /= %s\n", tempvar, tempvar2 );
+        	write_in_file("Intermediate.txt", tp);
             freename( tempvar2 );
         }
         else
@@ -259,7 +285,8 @@ char    *factor()
   * number-of-characters count from the next argument (yyleng).
   */
     	write_in_file("Lexemes.txt","<NUM_OR_ID> ");
-        printf("%s = %0.*s\n", tempvar = newname(), yyleng, yytext );
+        sprintf(tp, "%s = %0.*s\n", tempvar = newname(), yyleng, yytext );
+        write_in_file("Intermediate.txt", tp);
         advance();
     }
     // else if( match(LP) )
@@ -272,7 +299,7 @@ char    *factor()
     //         fprintf(stderr, "%d: Mismatched parenthesis\n", yylineno );
     // }
     else
- fprintf( stderr, "%d: Number or identifier expected\n", yylineno );
+ 		fprintf( stderr, "%d: Number or identifier expected\n", yylineno );
 
     return tempvar;
 }

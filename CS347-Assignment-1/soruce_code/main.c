@@ -13,10 +13,13 @@
 
 void main ()
 {
-	// FILE * fp=fopen("Lexemes.txt","w");
-	// fclose(fp);
-	// stmt ();
-	// match(EOI);
-
+	FILE * fp=fopen("Lexemes.txt","w");
+	fp=fopen("Intermediate.txt","w");
+	fclose(fp);
+	stmt_list();
+	if(match(EOI))
+		write_in_file("Lexemes.txt","<END_OF_INPUT> ");
+	else
+    	fprintf( stderr,"%d: Grammar mismatch\n", yylineno );
 	convert();
 }
