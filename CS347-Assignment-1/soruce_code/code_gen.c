@@ -78,8 +78,8 @@ void stmt ()
     /*stmt ->   id := expr
                 | if expr then stmt
                 | while expr do stmt
-                | begin opt_stmts end 
-    */    
+                | begin opt_stmts end
+    */
 
     char * tempvar;
     if(match(NUM_OR_ID))
@@ -88,29 +88,30 @@ void stmt ()
         int yyleng_temp=yyleng;
         char yytext_temp[50];
         strcpy(yytext_temp,yytext);
+				char sym_name[50];
+				for(int i=0;i<yyleng_temp;i++)
+					sym_name[i]=yytext_temp[i];
+				sym_name[yyleng_temp]='\0';
+				//
+				int sym_index=in_symtable(sym_name);
+				if(sym_index==-1)
+				{
+					strcpy(symbol_entry[symtable_size],sym_name);
+					sym_index=symtable_size;
+					symtable_size++;
+				}
+				sym_index++;
+
+				write_in_file("Lexemes.txt","<ID,");
+				write_in_file_int("Lexemes.txt",sym_index);
+				write_in_file("Lexemes.txt","> ");
         advance();
         if(!match(COLET))
             fprintf( stderr,"%d: Inserting missing colon equal to\n", yylineno );
         else
             advance();
 
-		char sym_name[50];
-		for(int i=0;i<yyleng_temp;i++)
-			sym_name[i]=yytext_temp[i];
-		sym_name[yyleng_temp]='\0';
-		//
-		int sym_index=in_symtable(sym_name);
-		if(sym_index==-1)
-		{
-			strcpy(symbol_entry[symtable_size],sym_name);
-			sym_index=symtable_size;
-			symtable_size++;
-		}
-		sym_index++;
 
-		write_in_file("Lexemes.txt","<ID,");
-		write_in_file_int("Lexemes.txt",sym_index);
-		write_in_file("Lexemes.txt","> ");
 		tempvar=expr();
 
 		char help[30], help2[30];
@@ -288,8 +289,8 @@ char   *expr ()
 char   *expression()
 {
     /* expression -> term expression'
-     * expression' -> + term expression' 
-                    | - term expression' 
+     * expression' -> + term expression'
+                    | - term expression'
                     | epsilon
      */
     // printf("expression\n");
