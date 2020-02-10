@@ -94,7 +94,7 @@ int lex(){
                if(strcmp(temp,"begin")==0)
                     return BEGIN;
                if(strcmp(temp,"end")==0)
-                    return END;    
+                    return END;
                return NUM_OR_ID;
             }
             break;
