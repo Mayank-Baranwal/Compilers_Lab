@@ -69,7 +69,10 @@ void stmt_list ()
         if( match( SEMI ) )
             advance();
         else
-            fprintf( stderr,"%d: Inserting missing semicolon\n", yylineno );
+        {
+					write_in_file("Lexemes.txt","<SEMI> ");
+					fprintf( stderr,"%d: Inserting missing semicolon\n", yylineno );
+				}
     }
 }
 
@@ -107,8 +110,11 @@ void stmt ()
 				write_in_file("Lexemes.txt","> ");
         advance();
         if(!match(COLET))
-            fprintf( stderr,"%d: Inserting missing colon equal to\n", yylineno );
-        else
+        {
+					write_in_file("Lexemes.txt","<COLON> <EQUAL> ");
+					fprintf( stderr,"%d: Inserting missing colon equal to\n", yylineno );
+        }
+				else
             advance();
 
 
@@ -139,8 +145,11 @@ void stmt ()
         write_in_file("Intermediate.txt", tp);
         freename(tempvar);
         if(!match(THEN))
-            fprintf( stderr,"%d: Inserting missing then\n", yylineno );
-        else
+        {
+					write_in_file("Lexemes.txt","<THEN> ");
+					fprintf( stderr,"%d: Inserting missing then\n", yylineno );
+        }
+				else
             advance();
 
         sprintf(tp, "then{\n");
@@ -164,8 +173,11 @@ void stmt ()
         write_in_file("Intermediate.txt", tp);
         freename(tempvar);
         if(!match(DO))
-            fprintf( stderr,"%d: Inserting missing do\n", yylineno );
-        else
+        {
+					write_in_file("Lexemes.txt","<DO> ");
+					fprintf( stderr,"%d: Inserting missing do\n", yylineno );
+        }
+				else
             advance();
 
        	sprintf(tp, "do{\n");
@@ -186,7 +198,7 @@ void stmt ()
     }
     // All cases covered -> Must be a syntax error
     fprintf( stderr,"%d: Grammar mismatch\n", yylineno );
-    exit(0);
+    // exit(0);
 }
 
 void opt_stmts ()
@@ -205,8 +217,11 @@ void opt_stmts ()
     }
     stmt_list();
     if(!match(END))
-        fprintf( stderr,"%d: Inserting missing end\n", yylineno);
-   	else
+    {
+			write_in_file("Lexemes.txt","<END> ");
+			fprintf( stderr,"%d: Inserting missing end\n", yylineno);
+   	}
+		else
         advance();
 	write_in_file("Lexemes.txt","<END> ");
     sprintf(tp, "}end\n");

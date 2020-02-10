@@ -1,1 +1,0 @@
-<BEGIN> <COLON> <EQUAL> <ID,1> <ID,2> <PLUS> <ID,3> <TIMES> <ID,4> <PLUS> <ID,5> <SEMI> <IF> <ID,2> <EQUAL> <const,2> <THEN> <COLON> <EQUAL> <ID,3> <const,5> <END> <END_OF_INPUT> 
