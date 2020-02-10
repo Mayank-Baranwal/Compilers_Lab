@@ -6,10 +6,7 @@
 #include "lex.c"
 #include "name.c"
 #include "code_gen.c"
-#include "inter_to_asm.c"
 
-// #include "basic_parser.c"
-// #include "improved_parser.c"
 
 void main ()
 {
@@ -22,7 +19,7 @@ void main ()
 		write_in_file("Lexemes.txt","<END_OF_INPUT> ");
 	else
     	fprintf( stderr,"%d: Grammar mismatch\n", yylineno );
-	
+
     //Print symbol table of parsed language
 	fp=fopen("Symbol_Table.txt","w");
 	fprintf(fp, "ID\t\tSymbol\n");

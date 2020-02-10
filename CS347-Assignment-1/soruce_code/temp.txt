@@ -1,5 +1,0 @@
-begin 
-r := a + b * c + d;
-if a=2 then
-	b := 5
-end
