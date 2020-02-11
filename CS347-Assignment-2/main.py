@@ -207,12 +207,13 @@ def print_to_file(file):
 		f.write("Count of Operator Overloaded Function Definitions:\t" + str(count_operator_overload) + '\n')
 		f.write("\n")
 		f.write("Object Declarations:\n")
+
 		for object in objects_map:
 			f.write(object + ": " + objects_map[object] + "\n")
-
-		f.write("Class Definitions: " + str(classes_list) + "\n")
-
-
+		f.write("\nClass Definitions: " + str(classes_list) + "\n")
+		f.write("\nConstructor Definitions: " + str(constructors_list) + "\n")
+		f.write("\nInherited Class Definitions: " + str(inherited_classes_list) + "\n")
+		f.write("\nOperator Overloaded Function Definitions: " + str(operator_overload_list) + "\n")
 
 
 if __name__ == '__main__':

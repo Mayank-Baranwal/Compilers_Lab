@@ -1,5 +1,5 @@
 C++ Code Analyser Output: 
-Count of Object Declarations:				22
+Count of Object Declarations:				44
 Count of Class Definitions:				5
 Count of Constructor Definitions:			6
 Count of Inherited Class Definitions:			5
@@ -9,4 +9,11 @@ Object Declarations:
 Area: a64l(),A1, A2(2, 1),
 BB: *z,y,
 CC: *x,
+
 Class Definitions: ['classes', 'Area', 'Child', 'A', 'B', 'C', 'D', 'outside', 'nested', 'AA', 'BB', 'CC', ('++', '()'), ('=', '(const T &other)  ')]
+
+Constructor Definitions: [('Area', ''), ('Area', ''), ('Area', 'int l, int b'), ('Area::Area', ''), ('B', ''), ('C', '')]
+
+Inherited Class Definitions: [('Child', 'public Area'), ('B', 'public A'), ('C', 'public A'), ('D', 'public C'), ('CC', 'private BB')]
+
+Operator Overloaded Function Definitions: []
