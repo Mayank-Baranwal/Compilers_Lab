@@ -1,0 +1,7 @@
+C++ Code Analyser Output: 
+Count of Object Declarations:	
+Count of Class Definitions:				5
+Count of Constructor Definitions:			6
+Count of Inherited Class Definitions:			5
+Count of Operator Overloaded Function Definitions:	2
+

@@ -43,16 +43,22 @@ count_class = 0
 count_operator_overload = 0
 count_constructors = 0
 
-inherited_classes_list=list()
-classes_list=list()
-operator_overload_list=list()
+inherited_classes_list = list()
+classes_list = list()
+operator_overload_list = list()
+constructors_list = list()
 
 def getClasses(current_text):
 	individual_lines=current_text.split('\n')
 	global count_inherited_class
 	global count_class
+	global count_constructors
+	global count_operator_overload
+
 	global inherited_classes_list
 	global classes_list
+	global operator_overload_list
+	global constructors_list
 
 	for line in individual_lines:
 		line = line + '\n'
@@ -87,8 +93,15 @@ def getClasses(current_text):
 
 def getOverloadedFunctions(current_text):
 	individual_lines=current_text.split('\n')
+	global count_inherited_class
+	global count_class
+	global count_constructors
 	global count_operator_overload
+
+	global inherited_classes_list
+	global classes_list
 	global operator_overload_list
+	global constructors_list
 
 	for line in individual_lines:
 		line = line + '\n'
@@ -108,37 +121,65 @@ def getOverloadedFunctions(current_text):
 				print(operators_overload_item)
 
 def getConstructors (current_text) :
-    lines = current_text.split('\n')
-    constructor_reg_exp = r'(?:[^~]|^)\b([A-Za-z_][\w\:\s]*)\s*\(([^)]*?)\)?\s*[\n\{\:]'
-    for line in lines:
-        is_constructor = False
-        line = line + '\n'
-        list_constructors = re.findall(constructor_reg_exp, line)
-        for constructor in list_constructors:
-            group_name = constructor[0]
-            names = group_name.split('::')
-            for name in names:
-                name = name.strip()
-            constructor_name = names[-1]
-            if constructor_name in classes_list:
-                if len(names) == 1 or names[-1] == names[-2]:
-                    is_constructor = True
-                    constructors_names_list.append(constructor)
-        if is_constructor:
-            count_constructors = count_constructors + 1
+	global count_inherited_class
+	global count_class
+	global count_constructors
+	global count_operator_overload
 
-# out_file = open(sys.argv[2],'w')
-# in_file = open(sys.argv[1]).read()
-# getClasses(in_file)
-# getOverloadedFunctions(in_file)
+	global inherited_classes_list
+	global classes_list
+	global operator_overload_list
+	global constructors_list
+
+	lines = current_text.split('\n')
+	constructor_reg_exp = r'(?:[^~]|^)\b([A-Za-z_][\w\:\s]*)\s*\(([^)]*?)\)?\s*[\n\{\:]'
+	for line in lines:
+		is_constructor = False
+		line = line + '\n'
+		list_constructors = re.findall(constructor_reg_exp, line)
+		for constructor in list_constructors:
+			group_name = constructor[0]
+			names = group_name.split('::')
+			for name in names:
+				name = name.strip()
+			constructor_name = names[-1]
+			if constructor_name in classes_list:
+				if len(names) == 1 or names[-1] == names[-2]:
+					is_constructor = True
+					constructors_list.append(constructor)
+		if is_constructor:
+			count_constructors = count_constructors + 1
+
+
+def print_to_file(file):
+	global count_inherited_class
+	global count_class
+	global count_constructors
+	global count_operator_overload
+
+	global inherited_classes_list
+	global classes_list
+	global operator_overload_list
+	global constructors_list
+
+	with open(file, "a") as f:
+		f.write("C++ Code Analyser Output: \n")
+		f.write("Count of Object Declarations:\t" + '\n')
+		f.write("Count of Class Definitions:\t\t\t\t" + str(count_class) + '\n')
+		f.write("Count of Constructor Definitions:\t\t\t" + str(count_constructors) + '\n')
+		f.write("Count of Inherited Class Definitions:\t\t\t" + str(count_inherited_class) + '\n')
+		f.write("Count of Operator Overloaded Function Definitions:\t" + str(count_operator_overload) + '\n')
+		f.write("\n")
+
 
 
 if __name__ == '__main__':
-	# out_file = open(sys.argv[2],'w')
+	out_file = open(sys.argv[2],'w')
 	in_file = open(sys.argv[1]).read()
 	in_file = comment_remover(in_file)
 	in_file = alias_remover(in_file)
-	print (in_file)
+	# print (in_file)
 	getClasses(in_file)
 	getOverloadedFunctions(in_file)
 	getConstructors(in_file)
+	print_to_file(sys.argv[2])
