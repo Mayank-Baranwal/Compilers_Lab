@@ -180,7 +180,10 @@ def getObjects (current_text):
 				else:
 				    objects_map[object_item[0]] = ''
 				    objects_map[object_item[0]] += (object_item[1]+',')
+				is_present_object = True
 				# print(objects_map[object_item[0]])
+		if is_present_object:
+			count_object += 1
 
 def print_to_file(file):
 	global count_inherited_class
@@ -213,8 +216,8 @@ def print_to_file(file):
 
 
 if __name__ == '__main__':
-	out_file = open(sys.argv[2],'w')
-	in_file = open(sys.argv[1]).read()
+	out_file = open("output.txt",'w')
+	in_file = open("input.txt").read()
 	in_file = comment_remover(in_file)
 	in_file = alias_remover(in_file)
 	# print (in_file)
@@ -222,4 +225,4 @@ if __name__ == '__main__':
 	getOverloadedFunctions(in_file)
 	getConstructors(in_file)
 	getObjects(in_file)
-	print_to_file(sys.argv[2])
+	print_to_file("output.txt")
