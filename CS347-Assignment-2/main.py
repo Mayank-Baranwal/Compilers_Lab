@@ -95,15 +95,8 @@ def getClasses(current_text):
 
 def getOverloadedFunctions(current_text):
 	individual_lines=current_text.split('\n')
-	global count_inherited_class
-	global count_class
-	global count_constructors
 	global count_operator_overload
-
-	global inherited_classes_list
-	global classes_list
 	global operator_overload_list
-	global constructors_list
 
 	for line in individual_lines:
 		line = line + '\n'
@@ -165,11 +158,6 @@ def getObjects (current_text):
 		objects=re.findall(object_regex, line);
 
 		is_present_object = False
-
-		if len(objects)>0:
-			is_present_object=True
-		if is_present_object:
-				count_object += len(objects)
 		for object_item in objects:
 			if object_item[0] in classes_list:
 				if object_item[0] in objects_map:
