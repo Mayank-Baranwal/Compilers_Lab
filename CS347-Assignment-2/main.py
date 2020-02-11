@@ -81,8 +81,10 @@ def getClasses(current_text):
 		if is_present_class:
 			count_class += len(inherited_classes)
 		if is_present_inherited_class:
-			count_inherited_class +=len(inherited_classes)
-			count_class += len(inherited_classes)
+			count_inherited_class += 1
+			# count_inherited_class +=len(inherited_classes)
+			count_class += 1
+			# count_class += len(inherited_classes)
 
 		for class_item in classes:
 			classes_list.append(class_item)
@@ -110,9 +112,10 @@ def getOverloadedFunctions(current_text):
 		if len(operators_overload)>0:
 			is_present_operator_overload=True
 		if is_present_operator_overload:
-				count_operator_overload += len(operators_overload)
+			count_operator_overload += 1
+				# count_operator_overload += len(operators_overload)
 		for operators_overload_item in operators_overload:
-				classes_list.append(operators_overload_item)
+			classes_list.append(operators_overload_item)
 				# print(operators_overload_item)
 
 def getConstructors (current_text) :
@@ -175,20 +178,28 @@ def print_to_file(file):
 	global count_class
 	global count_constructors
 	global count_operator_overload
+	global count_object
 
 	global inherited_classes_list
 	global classes_list
 	global operator_overload_list
 	global constructors_list
+	global objects_map
 
 	with open(file, "a") as f:
 		f.write("C++ Code Analyser Output: \n")
-		f.write("Count of Object Declarations:\t" + '\n')
+		f.write("Count of Object Declarations:\t\t\t\t" + str(count_object) + '\n')
 		f.write("Count of Class Definitions:\t\t\t\t" + str(count_class) + '\n')
 		f.write("Count of Constructor Definitions:\t\t\t" + str(count_constructors) + '\n')
 		f.write("Count of Inherited Class Definitions:\t\t\t" + str(count_inherited_class) + '\n')
 		f.write("Count of Operator Overloaded Function Definitions:\t" + str(count_operator_overload) + '\n')
 		f.write("\n")
+		f.write("Object Declarations:\n")
+		for object in objects_map:
+			f.write(object + ": " + objects_map[object] + "\n")
+
+		f.write("Class Definitions: " + str(classes_list) + "\n")
+
 
 
 
