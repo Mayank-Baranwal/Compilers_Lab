@@ -1,19 +1,18 @@
 C++ Code Analyser Output: 
-Count of Object Declarations:				5
-Count of Class Definitions:				12
-Count of Constructor Definitions:			6
-Count of Inherited Class Definitions:			5
-Count of Operator Overloaded Function Definitions:	2
+Count of Object Declarations:				10
+Count of Class Definitions:				4
+Count of Constructor Definitions:			3
+Count of Inherited Class Definitions:			1
+Count of Operator Overloaded Function Definitions:	4
 
 Object Declarations:
-Area: a64l(),A1, A2(2, 1),
-BB: *z,y,
-CC: *x,
+Complex: c1(10, 5), c2(2, 4),c3 = c1 + c2,
+person: *ptrP1 = new person(“KuangThu”, “Bruce”, 4157300),*ptrP2 = new person(“McDonald”, “Stacey”, 3327563),*ptrP3 = new person(“Deauville”, “William”, 8435150),*ptrP4 = new person(“Wellington”, “John”, 9207404),*ptrP5 = new person(“Bartoski”, “Peter”, 6946473),*ptrP6 = new person(“McDonald”, “Amanda”, 8435150),*ptrP7 = new person(“Fredericks”, “Roger”, 7049982),*ptrP8 = new person(“McDonald”, “Stacey”, 7764987),
 
-Class Definitions: ['classes', 'Area', 'Child', 'A', 'B', 'C', 'D', 'outside', 'nested', 'AA', 'BB', 'CC']
+Class Definitions: ['Complex', 'noperator', 'person', 'comparePersons']
 
-Constructor Definitions: [('Area', ''), ('Area', ''), ('Area', 'int l, int b'), ('Area::Area', ''), ('B', ''), ('C', '')]
+Constructor Definitions: [('Complex', 'int r = 0, int i = 0'), ('person', ''), ('person', 'string lana, string fina, long pho')]
 
-Inherited Class Definitions: [('Child', 'public Area'), ('B', 'public A'), ('C', 'public A'), ('D', 'public C'), ('CC', 'private BB')]
+Inherited Class Definitions: [('noperator', 'public Complex')]
 
-Operator Overloaded Function Definitions: [('++', '()'), ('=', '(const T &other)  ')]
+Operator Overloaded Function Definitions: [('+', '(Complex const &c1, Complex const &c2)'), ('-', '(Complex const &c1, Complex const &c2)'), ('<', '(const person &p1, const person &p2)'), ('()', '(const person *ptrP1,')]

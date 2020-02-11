@@ -15,8 +15,8 @@ def comment_remover(current_text):
 	modified_text = re.sub(expr, comment_substituter, current_text)
 	return modified_text
 
-# def alias_substituter(current_text):
-# 	match = current_text.group(0)
+# def alias_substituter(matching_text):
+# 	match = mathching_text.group(0)
 # 	if match.startswith('#define'):
 # 		return " "
 # 	else:
@@ -29,11 +29,11 @@ def alias_remover(current_text):
 	modified_text = re.sub(expr, alias_substituter, current_text)
 	for macro in macros:
 		macro_list = macro.split(' ')
+		# print(macro_list)
 		key = r'\b'+macro_list[1]+r'\b'
-		replacement = ' '.join(macro_list[:2])
+		replacement = ' '.join(macro_list[2:])
 		modified_text = re.sub(key, replacement, modified_text)
 	return modified_text
-
 
 
 # def getClasses:
@@ -136,11 +136,15 @@ def getConstructors (current_text) :
 		line = line + '\n'
 		list_constructors = re.findall(constructor_reg_exp, line)
 		for constructor in list_constructors:
+			# print(constructor)
 			group_name = constructor[0]
 			names = group_name.split('::')
+			new_list = list()
 			for name in names:
-				name = name.strip()
+				new_list.append(name.strip())
+			names = new_list
 			constructor_name = names[-1]
+			# print(constructor_name)
 			if constructor_name in classes_list:
 				if len(names) == 1 or names[-1] == names[-2]:
 					is_constructor = True
