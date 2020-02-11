@@ -79,7 +79,7 @@ def getClasses(current_text):
 			is_present_inherited_class=True
 
 		if is_present_class:
-			count_class += len(inherited_classes)
+			count_class += 1
 		if is_present_inherited_class:
 			count_inherited_class += 1
 			# count_inherited_class +=len(inherited_classes)
@@ -115,7 +115,7 @@ def getOverloadedFunctions(current_text):
 			count_operator_overload += 1
 				# count_operator_overload += len(operators_overload)
 		for operators_overload_item in operators_overload:
-			classes_list.append(operators_overload_item)
+			operator_overload_list.append(operators_overload_item)
 				# print(operators_overload_item)
 
 def getConstructors (current_text) :
