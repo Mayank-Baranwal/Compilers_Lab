@@ -51,7 +51,8 @@ constructors_list = list()
 objects_map = {}
 
 def getClasses(current_text):
-	individual_lines=current_text.split('\n')
+	line=current_text
+
 	global count_inherited_class
 	global count_class
 	global count_constructors
@@ -62,37 +63,40 @@ def getClasses(current_text):
 	global operator_overload_list
 	global constructors_list
 
-	for line in individual_lines:
-		line = line + '\n'
-		class_regex = r'\bclass\b\s+([A-Za-z_]\w*)\s*[\n\{]'
-		classes = re.findall(class_regex, line)
+	# for line in individual_lines:
+		# line = line + '\n'
+	# print(line)
+	class_regex = r'\bclass\b\s+([A-Za-z_]\w*)\s*\{'
+	classes = re.findall(class_regex, line)
 
-		inherited_class_regex=r'\bclass\b\s+([A-Za-z_]\w*)\s*\:\s*((?:private|protected|public)?\s+(?:[A-Za-z_]\w*)\s*\,?\s*)+[\n\{]'
-		inherited_classes=re.findall(inherited_class_regex, line)
+	class_regex2 = r'(\bclass\b\s+[A-Za-z_]\w*)\s*\{'
+	classes2 = re.findall(class_regex2, line)
 
-		is_present_class = False
-		is_present_inherited_class = False
+	inherited_class_regex=r'\bclass\b\s+([A-Za-z_]\w*)\s*\:\s*((?:private|protected|public)?\s+(?:[A-Za-z_]\w*)\s*\,?\s*)+\{'
+	inherited_classes=re.findall(inherited_class_regex, line)
 
-		if len(classes)>0:
-			is_present_class=True
-		if len(inherited_classes)>0:
-			is_present_inherited_class=True
 
-		if is_present_class:
-			count_class += 1
-		if is_present_inherited_class:
-			count_inherited_class += 1
-			# count_inherited_class +=len(inherited_classes)
-			count_class += 1
-			# count_class += len(inherited_classes)
+	inherited_class_regex2=r'(\bclass\b\s+[A-Za-z_]\w*\s*\:\s*((?:private|protected|public)?\s+(?:[A-Za-z_]\w*)\s*\,?\s*)*(?:private|protected|public)?\s+(?:[A-Za-z_]\w*))\s*\{'
+	inherited_classes2=re.findall(inherited_class_regex2, line)
 
-		for class_item in classes:
-			classes_list.append(class_item)
-			# print(class_item)
-		for inherited_class in inherited_classes:
-			inherited_classes_list.append(inherited_class)
-			classes_list.append(inherited_class[0])
-			# print(inherited_class)
+	for class_item in classes:
+		classes_list.append(class_item)
+
+	for class_item in classes2:
+		new_line_num = class_item.count("\n")
+		count_class += 1 + new_line_num
+
+	for inherited_class in inherited_classes2:
+		inherited_classes_list.append(inherited_class)
+		classes_list.append(inherited_class[0])
+
+	for inherited_class in inherited_classes2:
+		new_line_num = str(inherited_class[0]).count("\n")
+		print(new_line_num)
+		print(inherited_class)
+		count_class += 1 + new_line_num
+		count_inherited_class += 1 + new_line_num
+		# print(inherited_class)
 
 
 def getOverloadedFunctions(current_text):
