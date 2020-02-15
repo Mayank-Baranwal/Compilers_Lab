@@ -12,13 +12,17 @@ class Area
     int breadth;
 
   public:
-    // Constructor with no arguments
-    Area() {}
-    Area() 
+
+    Area
+    () 
     {}
-    Area a64l();
+    Area()
+    {}
+    Area a64l(),
+abc;
     // Constructor with two arguments
-    Area(int l, int b) : length(l), breadth(b) {}
+    Area(int l, 
+    int b) : length(l), breadth(b) {}
 
     void GetLength()
     {
@@ -39,7 +43,14 @@ Area::Area()
 {}
 
 
-void operator++()
+void 
+operator++() ;
+{
+    count = count + 1;
+}
+void 
+
+operator++(const T &other)  
 {
     count = count + 1;
 }
@@ -61,11 +72,15 @@ T &operator=(const T &other) // copy assignment
     return *this;
 }
 
-class Child : 
-public Area, 
-private temp 
+class 
+Child 
+: public 
+   Area
+     , 
+    private 
 
 
+temp 
 {
   public:
     int id_c;

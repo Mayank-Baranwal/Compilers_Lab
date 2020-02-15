@@ -1,18 +1,19 @@
 C++ Code Analyser Output: 
-Count of Object Declarations:				4
-Count of Class Definitions:				14
-Count of Constructor Definitions:			4
-Count of Inherited Class Definitions:			7
-Count of Operator Overloaded Function Definitions:	2
+Number of lines of Object Declarations:				6
+Number of lines of Class Definitions:				20
+Number of lines of Constructor Definitions:			8
+Number of lines of Inherited Class Definitions:			13
+Number of lines of Operator Overloaded Function Definitions:	4
 
 Object Declarations:
-Area: a64l(),A1, A2(2, 1),
-BB: *z,y,
+Area: a64l(),abc, A1, A2(2, 1), 
+BB: *z, y, 
+CC: *x, 
 
-Class Definitions: ['classes', 'Area', 'A', 'outside', 'nested', 'AA', 'BB', 'class Child : \npublic Area, \nprivate temp', 'class B : public A', 'class C : public A', 'class D : public B, public C', 'class CC : private BB']
+Class Definitions: ['classes', 'Area', 'A', 'outside', 'nested', 'AA', 'BB', 'Child', 'B', 'C', 'D', 'CC']
 
-Constructor Definitions: [('Area', ''), ('Area', ''), ('Area', 'int l, int b'), ('Area::Area', '')]
+Constructor Definitions: [['Area', ''], ['Area', ''], ['Area', 'intl,intb'], ['Area::Area', ''], ['B', ''], ['C', '']]
 
-Inherited Class Definitions: [('class Child : \npublic Area, \nprivate temp', 'public Area, \n'), ('class B : public A', ''), ('class C : public A', ''), ('class D : public B, public C', 'public B, '), ('class CC : private BB', '')]
+Inherited Class Definitions: ['Child', 'B', 'C', 'D', 'CC']
 
-Operator Overloaded Function Definitions: [('++', '()'), ('=', '(const T &other)  ')]
+Operator Overloaded Function Definitions: ['++(const T &other)', '=(const T &other)']
