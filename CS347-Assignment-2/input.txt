@@ -1,161 +1,149 @@
 #include <iostream>
 using namespace std;
 
-class classes {
-
-}
-
-class Area
-{
-  private:
-    int length;
-    int breadth;
-
-  public:
-
-    Area
-    () 
-    {}
-    Area()
-    {}
-    Area a64l(),
-abc;
-    // Constructor with two arguments
-    Area(int l, 
-    int b) : length(l), breadth(b) {}
-
-    void GetLength()
+class first{
+    int a,b;
+public:
+    first()
     {
-        cout << "Enter length and breadth respectively: ";
-        cin >> length >> breadth;
+        a=0;b=1;
     }
-
-    int AreaCalculation() { return length * breadth; }
-
-    void DisplayArea(int temp)
+    first(int x, int y){
+        a=x;
+        b=y;
+    }
+    first operator + (first const &f1)
     {
-        cout << "Area: " << temp << endl;
+        first ans;
+        ans.a=f1.a+a;
+        ans.b=f1.b+b;
+        return ans;
     }
 };
 
-Area::Area();
-Area::Area()
-{}
-
-
-void 
-operator++() ;
+class second
 {
-    count = count + 1;
-}
-void 
-
-operator++(const T &other)  
-{
-    count = count + 1;
-}
-
-T &operator=(const T &other) // copy assignment
-{
-    if (this != &other)
-    { // self-assignment check expected
-        if (other.size != size)
-        {                    // storage cannot be reused
-            delete[] mArray; // destroy storage in this
-            size = 0;
-            mArray = nullptr;             // preserve invariants in case next line throws
-            mArray = new int[other.size]; // create storage in this
-            size = other.size;
+    private:
+        int l;
+        int b;
+        int area;
+    public:
+        second() {
+            l=b=area=0;
         }
-        std::copy(other.mArray, other.mArray + other.size, mArray);
-    }
-    return *this;
+        second(int x,int y)
+        {
+            l=x;
+            b=y;
+            area=l*b;
+        }
+        second operator * ()
+        {
+            second ans;
+            ans.l=5*7;
+            ans.b=5*8;
+            return ans;
+        }
+};
+
+class third : public first
+{
+    int a,b;
+    public:
+        third(int x);
+        int getab();
+        void operator=(third const& t1)
+        {
+            a=t1.a;
+            b=t1.b;
+        }
+    second s1,s2; second s3;
+};
+
+
+third::third(int x)
+{
+    a=x;
+    b=x;
 }
 
-class 
-Child 
-: public 
-   Area
-     , 
-    private 
-
-
-temp 
+int third::getab()
 {
-  public:
-    int id_c;
+    return a*b;
+}
+
+class fourth : public first, private second
+{
+    int tempa,tempb;
+    public:
+        int gettemp()
+        {
+            return tempa*tempb;
+        }
 };
 
 class A
 {
-    int x;
-
-  public:
-    void setX(int i) { x = i; }
-    void print() { cout << x; }
+    public:
+        int x;
 };
 
-class B : public A
+class B:public A
 {
   public:
-    B() { setX(10); }
+    B() {x=5;}
 };
 
 class C : public A
 {
   public:
-    C() { setX(20); }
+    C() 
+    { x=10; }
 };
 
 class D : public B, public C
 {
+    public:
+        int a,b;
 };
 
-class outside
+class nested1
 {
   public:
-    class nested
+    class nested2
     {
       public:
-        static int x;
-        static int y;
         int f();
         int g();
     };
 };
-int outside::nested::x = 5;
-int outside::nested::f() { return 0; };
 
-class AA
+
+class nested3
 {
   private:
-    class BB
+    class nested4
     {
+        int a,b;
     };
-    BB *z;
+    nested4 *var;
 
-    class CC : private BB
+    class nested5 : private nested4
     {
       private:
-        BB y;
-        //      A::B y2;
-        CC *x;
-        //      A::C *x2;
+        int alpha;
     };
 };
 
+
 int main()
 {
-    Area A1, A2(2, 1);
-    int temp;
+ 
+    first f1,*f2;
+    second fin;
+    nested3 n1;
+    nested3 *n2,n3;
 
-    cout << "Default Area when no argument is passed." << endl;
-    temp = A1.AreaCalculation();
-    A1.DisplayArea(temp);
-
-    cout << "Area when (2,1) is passed as argument." << endl;
-    temp = A2.AreaCalculation();
-    A2.DisplayArea(temp);
 
     return 0;
 }
