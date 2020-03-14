@@ -1,10 +1,10 @@
 stmts := stmt NEWLINE stmts
         | stmt
 
-stmt := SELECT < condition > ( Table_Name )
-        | PROJECT < attribute_list > ( Table_Name )
-        | < Table_Name > CARTESIAN_PRODUCT < Table_Name >
-        | < Table_Name > EQUI_JOIN < condition > < Table_Name >
+stmt := SELECT LT condition GT LP Table_Name RP
+        | PROJECT LT attribute_list GT LP Table_Name RP
+        | LP Table_Name GP CARTESIAN_PRODUCT LP Table_Name GP
+        | LP Table_Name GP EQUI_JOIN LT condition GT LP Table_Name GP
 
 condition := temp_cond OR condition 
             | temp_cond
@@ -14,23 +14,27 @@ temp_cond := expression AND temp_cond
 
 expression := column op STRING
             | STRING op column
+            | column op column
             | column op INT
             | INT op column
             | INT op INT
             | STRING op STRING
-            | ( condition )
+            | LP condition RP
             | NOT condition   
 
-op := <
-    | >
-    | <=
-    | >=
-    | =
-    | <>
+op := LT
+    | GT
+    | LTE
+    | GTE
+    | EQUAL
+    | NOT_EQUAL
 
-attribute_list := column , attribute_list
-            | column
+attribute_list := column COMMA attribute_list
+                | column
+
+column := column_name 
+        | Table_Name DOT column_name
 
 Table_Name := ID
 
-column := ID
+column_name := ID

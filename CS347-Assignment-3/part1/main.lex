@@ -4,7 +4,7 @@
 	#include<stdbool.h>
 	#include<string.h>
 
-	FILE * remove_comments();
+	void remove_comments();
 	void line_increment(void);
     void put_class_in_array(char*);
     int exists_class(char*);
@@ -67,21 +67,18 @@ OP \+=|-=|\*=|\/=|%=|\^=|&=|\|=|<<|>>|>>=|<<=|==|!=|<=|>=|<=>|&&|\|\||\+\+|--|\,
 <DST_C>[^\n{:]               { BEGIN(INITIAL);} 
 
 
-{st}{wd}*[ ]*[(]          { memset(class_to_add, 0, sizeof(class_to_add)) ; sscanf(yytext, "%[A-Za-z0-9_]s", class_to_add); BEGIN(CNST_B) ; /* printf("%s-const-%d-%s-\n", yytext, yylineno, class_to_add); */}
-<CNST_A>[ \t]                 { BEGIN(CNST_A);}
-<CNST_A>[(]                   { BEGIN(CNST_B);}
+{st}{wd}*[\t ]*[(]          { memset(class_to_add, 0, sizeof(class_to_add)) ; sscanf(yytext, "%[A-Za-z0-9_]s", class_to_add); BEGIN(CNST_B) ; }
 <CNST_B>[^)]                  { BEGIN(CNST_B);}
 <CNST_B>[)]                   { BEGIN(CNST_C);}
 <CNST_C>[ \t]                 { BEGIN(CNST_C);}
-<CNST_C>[{:]                  { if (exists_class(class_to_add)){ constructor_in_line = 1; /* printf("######%s#######", class_to_add);*/ } /* printf("%s-was here\n", class_to_add);*/ BEGIN(INITIAL);}
-<CNST_C>\n                    { if (exists_class(class_to_add)) {constructor_in_line = 1; /* printf("######%s#######", class_to_add);*/ }line_increment(); /*printf("%s-was here\n", class_to_add);*/ BEGIN(INITIAL);}
+<CNST_C>[{:]                  { if (exists_class(class_to_add)){ constructor_in_line = 1; }  BEGIN(INITIAL);}
+<CNST_C>\n                    { if (exists_class(class_to_add)) {constructor_in_line = 1; }line_increment(); BEGIN(INITIAL);}
 <CNST_C>[^\n{:]               { BEGIN(INITIAL);} 
 
 .                         ;    
 \n                        { line_increment();}
 
-// {st}{wd}*[*]*[ ]+[*]*[A-Za-z0-9_,][A-Za-z0-9_,\.\[\] ()]*[^\n;<>]*;  {/* printf("%s\n", yytext); */ verify_obj(yytext);}      
-{st}{wd}*[*]*[ ]+[*]*[A-Za-z0-9_,][A-Za-z0-9_,\.\[\] ()]*;  {printf("%s\n", yytext); verify_obj(yytext);}      
+{st}{wd}*[*]*[ ]+[*]*[A-Za-z0-9_,][A-Za-z0-9_,\.\[\] ()]*[^\n;<>]*;  {printf("%s\n", yytext); verify_obj(yytext);}      
 
 
 
@@ -90,7 +87,7 @@ OP \+=|-=|\*=|\/=|%=|\^=|&=|\|=|<<|>>|>>=|<<=|==|!=|<=|>=|<=>|&&|\|\||\+\+|--|\,
 int exists_class(char *class_name){
     int cls=0;
     while (cls < class_count){
-        if(strcmp(class_list[i], class_name) == 0)					//May not work, check earlier
+        if(strcmp(class_list[cls], class_name) == 0)					//May not work, check earlier
     		return 1;
     	cls++;
     }
@@ -102,42 +99,42 @@ void put_class_in_array(char* class_to_add){
     snprintf(class_list[class_count-1],  200, "%s", class_to_add);
 }
 
-// void verify_obj(char *class_value){
-//     char class_title[250];
-//     memset(class_title, 0, sizeof(class_title));
-//     sscanf(class_value, "%s", class_title);
-//     int len = strlen(class_title);
-//     while(class_title[len-1] == '*') {
-//         class_title[len-1] = '\0';
-//         len--;
-//     }
-//     if(strstr(class_value, "operator") && strstr(class_value, "{")){
-//         operator_in_line=1;
-//         return;
-//     }
-//     if(exists_class(class_title)){
-//         object_in_line = 1;
-//         //printf("%s\n", class_value);
-//     }
-// }
-
-void verify_obj(char *class_value){	
-    char class_title[200];
-    bzero(class_title, sizeof(class_title));
+void verify_obj(char *class_value){
+    char class_title[250];
+    memset(class_title, 0, sizeof(class_title));
     sscanf(class_value, "%s", class_title);
-    int len = strlen(class_title);								//Remove * from class
+    int len = strlen(class_title);
     while(class_title[len-1] == '*') {
         class_title[len-1] = '\0';
         len--;
     }
-    // if(strstr(class_value, "operator") && strstr(class_value, "{")){
-    //     operator_in_line=1;
-    //     return;
-    // }
+    if(strstr(class_value, "operator") && strstr(class_value, "{")){
+        operator_in_line=1;
+        return;
+    }
     if(exists_class(class_title)){
         object_in_line = 1;
+        // printf("%s\n", class_value);
     }
 }
+
+// void verify_obj(char *class_value){	
+//     char class_title[200];
+//     bzero(class_title, sizeof(class_title));
+//     sscanf(class_value, "%s", class_title);
+//     int len = strlen(class_title);								//Remove * from class
+//     while(class_title[len-1] == '*') {
+//         class_title[len-1] = '\0';
+//         len--;
+//     }
+//     // if(strstr(class_value, "operator") && strstr(class_value, "{")){
+//     //     operator_in_line=1;
+//     //     return;
+//     // }
+//     if(exists_class(class_title)){
+//         object_in_line = 1;
+//     }
+// }
 
 
 void line_increment(){
@@ -147,6 +144,9 @@ void line_increment(){
     inherited_class_total += inherited_class_in_line;
     constructor_total += constructor_in_line;
     
+    if (object_in_line == 1)
+        printf("Object counted\n");
+
     operator_in_line = 0;
     class_in_line = 0;
     object_in_line = 0;
@@ -160,7 +160,7 @@ void print_classes(){
     char tp[200];
     printf("Printing class_list : \n");
     while (cls < class_count){
-        strcpy(tp, class_list[i]);
+        strcpy(tp, class_list[cls]);
         printf("%s ", tp);
     	cls++;
     }
@@ -168,7 +168,7 @@ void print_classes(){
 }
 
 
-FILE * remove_comments()
+void remove_comments()
 {
 	FILE * fil = fopen("input.txt","r");
 	if (fil == NULL)
@@ -242,13 +242,24 @@ FILE * remove_comments()
 		fprintf(temp,"%s",line);
 		memset(line,0,sizeof(line));
 	}
-
-	return temp;
+	fclose(fil);
+	fclose(temp);
+	// return temp;
 }
 
 int main()
 {
-	FILE * fin_ptr = remove_comments();
+	// FILE * fin_ptr = remove_comments();
+	remove_comments();
+	FILE* fin_ptr = fopen("temp.txt", "r");
 	yyin = fin_ptr;
 	yylex();
+
+	line_increment();
+    printf("Number of Classes           : %d\n", class_total);
+    printf("Number of Inherited classes : %d\n", inherited_class_total);
+    // print_classes();
+    printf("Number of Constructors      : %d\n", constructor_total);
+    printf("Number of Overloading       : %d\n", op_overload_total);
+    printf("Number of Objects           : %d\n", object_total);
 }

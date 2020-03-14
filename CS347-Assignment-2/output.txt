@@ -6,10 +6,10 @@ Count of Inherited Class Definitions:			6
 Count of Operator Overloaded Function Definitions:	3
 
 Object Declarations:
+first: ans,f1,*f2,
+second: ans,s1,s2,s3,fin,
 nested4: *var,
 nested3: n1,*n2,n3,
-second: ans,s1,s2,s3,fin,
-first: ans,f1,*f2,
 
 Class Definitions: ['first', 'second', 'third', 'fourth', 'A', 'B', 'C', 'D', 'nested1', 'nested2', 'nested3', 'nested4', 'nested5']
 
