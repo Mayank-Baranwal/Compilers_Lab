@@ -19,7 +19,7 @@ void yyerror(char* s);
 %%
 stmts : stmt NEWLINE stmts
         | stmt
-        | error NEWLINE {printf("error: syntax error in line number %d\n\n",yylineno-1);} stmts 
+        | error NEWLINE {printf("Invalid Syntax: Error in line number %d\n\n",yylineno-1);} stmts 
         ;
 
 stmt : SELECT LT condition GT LP Table_Name RP      {printf("\nValid Syntax\n");}
@@ -41,8 +41,6 @@ temp_cond2 : NOT expression
             | expression
             ;
 
-
-
 expression : column op STRING
             | STRING op column
             | column op column
@@ -52,8 +50,6 @@ expression : column op STRING
             | STRING op STRING
             | LP condition RP  
             ;
-
-
 
 op : LT
     | GT
@@ -71,11 +67,12 @@ column : column_name
         | Table_Name DOT column_name
         ;
 
+column_name : ID
+            ;
+
 Table_Name : ID
             ;
 
-column_name : ID
-            ;
 
 %%
 int main()

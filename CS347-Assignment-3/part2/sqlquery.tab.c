@@ -447,9 +447,9 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    20,    20,    21,    22,    22,    25,    26,    27,    28,
-      29,    32,    33,    36,    37,    40,    41,    46,    47,    48,
-      49,    50,    51,    52,    53,    58,    59,    60,    61,    62,
-      63,    66,    67,    70,    71,    74,    77
+      29,    32,    33,    36,    37,    40,    41,    44,    45,    46,
+      47,    48,    49,    50,    51,    54,    55,    56,    57,    58,
+      59,    62,    63,    66,    67,    70,    73
 };
 #endif
 
@@ -463,7 +463,7 @@ static const char *const yytname[] =
   "LTE", "GTE", "EQUAL", "NE", "LP", "RP", "COMMA", "DOT", "NEWLINE",
   "$accept", "stmts", "$@1", "stmt", "condition", "temp_cond1",
   "temp_cond2", "expression", "op", "attribute_list", "column",
-  "Table_Name", "column_name", YY_NULLPTR
+  "column_name", "Table_Name", YY_NULLPTR
 };
 #endif
 
@@ -483,7 +483,7 @@ static const yytype_uint16 yytoknum[] =
 #define yypact_value_is_default(Yystate) \
   (!!((Yystate) == (-19)))
 
-#define YYTABLE_NINF -36
+#define YYTABLE_NINF -37
 
 #define yytable_value_is_error(Yytable_value) \
   0
@@ -494,7 +494,7 @@ static const yytype_int8 yypact[] =
 {
        3,     7,    -8,    18,    11,    35,    14,   -19,    -1,    36,
      -19,    30,   -19,     3,     3,     2,    29,    29,    31,    -1,
-      37,    47,    48,   -19,    29,    33,   -19,    43,    38,    10,
+      37,    47,    48,   -19,    29,   -19,    33,    43,    38,    10,
      -19,   -19,   -19,   -19,   -19,   -19,   -19,   -19,   -19,    24,
        8,    41,    39,    -1,    -1,    17,    51,    45,    36,    46,
       53,   -19,   -19,   -19,   -19,   -19,    11,   -19,   -19,   -19,
@@ -508,12 +508,12 @@ static const yytype_int8 yypact[] =
 static const yytype_uint8 yydefact[] =
 {
        0,     0,     0,     0,     0,     0,     3,     4,     0,     0,
-      35,     0,     1,     0,     0,     0,     0,     0,    36,     0,
-       0,    12,    14,    16,     0,     0,    33,     0,    32,     0,
+      36,     0,     1,     0,     0,     0,     0,     0,    35,     0,
+       0,    12,    14,    16,     0,    33,     0,     0,    32,     0,
        2,     5,    15,    25,    26,    27,    28,    29,    30,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,    22,    21,    23,    18,    24,     0,    11,    13,    20,
-      17,    19,    36,    34,     0,    31,     0,     0,     0,     0,
+      17,    19,    35,    34,     0,    31,     0,     0,     0,     0,
        0,     0,     6,     7,     8,     0,     0,     0,     9
 };
 
@@ -521,7 +521,7 @@ static const yytype_uint8 yydefact[] =
 static const yytype_int8 yypgoto[] =
 {
      -19,    26,   -19,   -19,   -18,    23,   -19,    61,     0,    20,
-      -7,    -4,    27
+      -7,    27,    -4
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
@@ -541,7 +541,7 @@ static const yytype_int8 yytable[] =
       18,    19,     4,    10,    45,    57,   -10,    59,    60,    18,
        7,     9,    52,    54,    51,    12,    18,    13,    61,    30,
       31,    28,    33,    34,    35,    36,    37,    38,    18,    71,
-      29,    42,    68,   -35,    43,    46,    44,    47,    56,    48,
+      29,    42,    68,   -36,    43,    46,    44,    47,    56,    48,
       69,    55,    70,    62,    64,    66,    67,    58,    65,    72,
       73,    75,    77,    63,    74,    76,    32,     0,    78
 };
@@ -563,13 +563,13 @@ static const yytype_int8 yycheck[] =
 static const yytype_uint8 yystos[] =
 {
        0,     1,     3,     4,    19,    25,    27,    23,    13,    13,
-      12,    35,     0,    23,    26,     9,    10,    11,    12,    19,
+      12,    36,     0,    23,    26,     9,    10,    11,    12,    19,
       28,    29,    30,    31,    34,    35,    36,    33,    34,    20,
       25,    25,    31,    13,    14,    15,    16,    17,    18,    32,
       32,    28,    14,     7,     8,    32,    22,    14,    21,     5,
        6,    10,    34,    11,    34,    20,    19,    28,    29,    10,
-      11,    34,    12,    36,    19,    33,    19,    13,    35,    35,
-      35,    28,    20,    20,    20,    14,    19,    35,    20
+      11,    34,    12,    35,    19,    33,    19,    13,    36,    36,
+      36,    28,    20,    20,    20,    14,    19,    36,    20
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -1265,7 +1265,7 @@ yyreduce:
     {
         case 4:
 #line 22 "sqlquery.y" /* yacc.c:1646  */
-    {printf("error: syntax error in line number %d\n\n",yylineno-1);}
+    {printf("Invalid Syntax: Error in line number %d\n\n",yylineno-1);}
 #line 1270 "sqlquery.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1522,9 +1522,9 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 80 "sqlquery.y" /* yacc.c:1906  */
+#line 77 "sqlquery.y" /* yacc.c:1906  */
 
-int main(int argc, char **argv)
+int main()
 {
   yyparse();
 }
