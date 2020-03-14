@@ -1,0 +1,36 @@
+stmts := stmt NEWLINE stmts
+        | stmt
+
+stmt := SELECT < condition > ( Table_Name )
+        | PROJECT < attribute_list > ( Table_Name )
+        | < Table_Name > CARTESIAN_PRODUCT < Table_Name >
+        | < Table_Name > EQUI_JOIN < condition > < Table_Name >
+
+condition := temp_cond OR condition 
+            | temp_cond
+
+temp_cond := expression AND temp_cond
+            | expression
+
+expression := column op STRING
+            | STRING op column
+            | column op INT
+            | INT op column
+            | INT op INT
+            | STRING op STRING
+            | ( condition )
+            | NOT condition   
+
+op := <
+    | >
+    | <=
+    | >=
+    | =
+    | <>
+
+attribute_list := column , attribute_list
+            | column
+
+Table_Name := ID
+
+column := ID
