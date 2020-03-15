@@ -4,15 +4,15 @@
 	#include<stdbool.h>
 	#include<string.h>
 
-	//Function declarations 
+	//Function declarations
 	void remove_comments();
 	void line_increment(void);
     void put_class_in_array(char*);
     int exists_class(char*);
     void print_classes();
-    void verify_obj(char*);	
+    void verify_obj(char*);
 
-    //Variable declarations 
+    //Variable declarations
     char class_to_add[200];
     char class_list[10000][200];
     int class_count=0;
@@ -28,7 +28,7 @@
     int constructor_in_line = 0;
 %}
 
-//alias for patterns
+/*alias for patterns*/
 word   [A-Za-z_0-9]
 str   [A-Za-z_]
 cls_type   public|private|protected
@@ -36,20 +36,20 @@ oper \+|-|\*|\/|\+=|-=|\*=|\/=|%=|\^=|&=|\|=|<<|>>|>>=|<<=|==|!=|<=|>=|<=>|&&|\|
 
 
 %option noyywrap
-//Start conditions --> States for DFA
+/*Start conditions --> States for DFA */
 %x CLS_A CLS_B CLS_C CLS_D CNST_A CNST_B DST_A DST_B DST_C
 %%
 
-//Operator overaloading detection
+
 [^A-Za-z_]operator" "*{oper}" "*([^\{\;\n]*)[\n\{]     { operator_in_line = 1; if(yytext[yyleng-1]=='\n'){line_increment();}}
 
-//Class, inherited class detection
+
 [^0-9a-zA-Z_]class[\t ]+  		{ if(yytext[0] == '\n'){line_increment();} BEGIN(CLS_A); }
 <CLS_A>{str}{word}*             { memset(class_to_add, 0, sizeof(class_to_add)) ; snprintf(class_to_add, 200, "%s", yytext); BEGIN(CLS_B) ; }
-<CLS_B>[ \t]                 	{ BEGIN(CLS_B) ; } 
+<CLS_B>[ \t]                 	{ BEGIN(CLS_B) ; }
 <CLS_B>\n                    	{ class_in_line = 1; line_increment(); if(exists_class(class_to_add)==0){put_class_in_array(class_to_add);} BEGIN(INITIAL);}
 <CLS_B>"{"                   	{ class_in_line = 1; if(exists_class(class_to_add)==0){put_class_in_array(class_to_add);} /*printf("%s-was here\n", class_to_add);*/ BEGIN(INITIAL); }
-<CLS_B>":"                   	{ BEGIN(CLS_C); }  
+<CLS_B>":"                   	{ BEGIN(CLS_C); }
 <CLS_B>[^\n{:]               	{ put_class_in_array(class_to_add); BEGIN(INITIAL);}
 <CLS_C>[ \t]                 	{ BEGIN(CLS_C); }
 <CLS_C>{cls_type}            	{ BEGIN(CLS_C); }
@@ -70,7 +70,7 @@ oper \+|-|\*|\/|\+=|-=|\*=|\/=|%=|\^=|&=|\|=|<<|>>|>>=|<<=|==|!=|<=|>=|<=>|&&|\|
 <DST_C>[ ]                   	{ BEGIN(DST_C);}
 <DST_C>[{:]                  	{ BEGIN(INITIAL);}
 <DST_C>\n                    	{ line_increment(); BEGIN(INITIAL);}
-<DST_C>[^\n{:]               	{ BEGIN(INITIAL);} 
+<DST_C>[^\n{:]               	{ BEGIN(INITIAL);}
 
 
 {str}{word}*[\t ]*[(]          	{ memset(class_to_add, 0, sizeof(class_to_add)) ; sscanf(yytext, "%[A-Za-z0-9_]s", class_to_add); BEGIN(CNST_A) ; }
@@ -79,12 +79,12 @@ oper \+|-|\*|\/|\+=|-=|\*=|\/=|%=|\^=|&=|\|=|<<|>>|>>=|<<=|==|!=|<=|>=|<=>|&&|\|
 <CNST_B>[ \t]                 	{ BEGIN(CNST_B);}
 <CNST_B>[{:]                  	{ if (exists_class(class_to_add)){ constructor_in_line = 1; }  BEGIN(INITIAL);}
 <CNST_B>\n                    	{ if (exists_class(class_to_add)) {constructor_in_line = 1; }line_increment(); BEGIN(INITIAL);}
-<CNST_B>[^\n{:]               	{ BEGIN(INITIAL);} 
+<CNST_B>[^\n{:]               	{ BEGIN(INITIAL);}
 
-.                         		;    
+.                         		;
 \n                        		{ line_increment();}
 
-{str}{word}*[*]*[ ]+[*]*[A-Za-z0-9_,][A-Za-z0-9_,\.\[\] ()]*[^\n;<>]*;  {printf("%s\n", yytext); verify_obj(yytext);}      
+{str}{word}*[*]*[ ]+[*]*[A-Za-z0-9_,][A-Za-z0-9_,\.\[\] ()]*[^\n;<>]*;  {/*printf("%s\n", yytext);*/ verify_obj(yytext);}
 
 
 
@@ -107,7 +107,7 @@ void put_class_in_array(char* class_to_add){
 }
 
 //VERIFY IF STRING IS AN OBJECT
-void verify_obj(char *class_value){	
+void verify_obj(char *class_value){
     char class_title[200];
     memset(class_title, 0, sizeof(class_title));
     sscanf(class_value, "%s", class_title);
@@ -125,17 +125,18 @@ void verify_obj(char *class_value){
     }
 }
 
-//INCREMENTING ALL COUNTERS AND RESETING VARIABLES 
+//INCREMENTING ALL COUNTERS AND RESETING VARIABLES
 void line_increment(){
     op_overload_total += operator_in_line;
     class_total += class_in_line;
     object_total += object_in_line;
     inherited_class_total += inherited_class_in_line;
     constructor_total += constructor_in_line;
-    
-    if (object_in_line == 1)
-        printf("Object counted\n");
 
+    /*
+			if (object_in_line == 1)
+        printf("Object counted\n");
+		*/
     operator_in_line = 0;
     class_in_line = 0;
     object_in_line = 0;
