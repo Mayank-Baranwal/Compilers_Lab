@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern int yylex();
-extern int yyparse();
-extern int yylineno;
-void yyerror(char* s);
+int yylex();
+int yyparse();
+int yylineno;
+void yyerror(char *s);
 %}
 
 // token declaration
@@ -16,6 +16,7 @@ void yyerror(char* s);
 %token LT GT LTE GTE EQUAL NE
 %token LP RP COMMA DOT NEWLINE
 
+//Grammar
 %%
 stmts : stmt NEWLINE stmts
         | stmt
@@ -29,10 +30,12 @@ stmt : SELECT LT condition GT LP Table_Name RP      {printf("\nValid Syntax\n");
         | %empty
         ;
 
+// OR has lower precedence than AND
 condition : temp_cond1 OR condition 
             | temp_cond1
             ;
 
+// AND has lower precedence than NOT
 temp_cond1 : temp_cond2 AND temp_cond1
             | temp_cond2
             ;
@@ -81,7 +84,4 @@ int main()
 }
 
 void yyerror(char *s)
-{      
-    // printf( "error!!: %s at line %d\n", s, yylineno);
-    // fflush(stdout);
-}
+{}

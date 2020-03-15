@@ -3,7 +3,7 @@
 %}
 
 %%
-\n                              {printf("%s ",yytext ); yylineno++; return NEWLINE; }
+\n                              {printf("%s",yytext ); yylineno++; return NEWLINE; }
 SELECT                          {printf("<SELECT> " ); return SELECT;}
 PROJECT                         {printf("<PROJECT> " ); return PROJECT;}
 CARTESIAN_PRODUCT               {printf("<CARTESIAN_PRODUCT> " ); return CARTESIAN_PRODUCT;} 
@@ -14,12 +14,12 @@ NOT                           	{printf("<NOT> " ); printf("<%s> ",yytext ); retu
 [0-9]+                          {printf("<INT, %s> ",yytext ); return INT; }
 \'[A-Za-z_][0-9A-Za-z_]*\'		{printf("<STRING, %s> ",yytext ); return STRING;}
 \"[A-Za-z_][0-9A-Za-z_]*\"  	{printf("<STRING, %s> ",yytext ); return STRING;}
-"<"                             {printf("<LT> " ); return LT;}
-">"                             {printf("<GT> " ); return GT;}
-"<="                            {printf("<LTE> " ); return LTE;}
-">="                            {printf("<GTE> " ); return GTE;}
-"="                             {printf("<EQUAL> " ); return EQUAL;}             
-"<>"                            {printf("<NE> " ); return NE;} 
+\<                             {printf("<LT> " ); return LT;}
+\>                             {printf("<GT> " ); return GT;}
+\<\=                            {printf("<LTE> " ); return LTE;}
+\>\=                            {printf("<GTE> " ); return GTE;}
+\=                             {printf("<EQUAL> " ); return EQUAL;}             
+\<\>                            {printf("<NE> " ); return NE;} 
 \(                         	    {printf("<LP> " ); return LP;}
 \)                           	{printf("<RP> " ); return RP;}
 ,                               {printf("<COMMA> " ); return COMMA;}

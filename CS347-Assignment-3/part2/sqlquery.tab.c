@@ -67,10 +67,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern int yylex();
-extern int yyparse();
-extern int yylineno;
-void yyerror(char* s);
+int yylex();
+int yyparse();
+int yylineno;
+void yyerror(char *s);
 
 #line 76 "sqlquery.tab.c" /* yacc.c:339  */
 
@@ -446,10 +446,10 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    20,    20,    21,    22,    22,    25,    26,    27,    28,
-      29,    32,    33,    36,    37,    40,    41,    44,    45,    46,
-      47,    48,    49,    50,    51,    54,    55,    56,    57,    58,
-      59,    62,    63,    66,    67,    70,    73
+       0,    21,    21,    22,    23,    23,    26,    27,    28,    29,
+      30,    34,    35,    39,    40,    43,    44,    47,    48,    49,
+      50,    51,    52,    53,    54,    57,    58,    59,    60,    61,
+      62,    65,    66,    69,    70,    73,    76
 };
 #endif
 
@@ -1264,31 +1264,31 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 22 "sqlquery.y" /* yacc.c:1646  */
+#line 23 "sqlquery.y" /* yacc.c:1646  */
     {printf("Invalid Syntax: Error in line number %d\n\n",yylineno-1);}
 #line 1270 "sqlquery.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 25 "sqlquery.y" /* yacc.c:1646  */
+#line 26 "sqlquery.y" /* yacc.c:1646  */
     {printf("\nValid Syntax\n");}
 #line 1276 "sqlquery.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 26 "sqlquery.y" /* yacc.c:1646  */
+#line 27 "sqlquery.y" /* yacc.c:1646  */
     {printf("\nValid Syntax\n");}
 #line 1282 "sqlquery.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 27 "sqlquery.y" /* yacc.c:1646  */
+#line 28 "sqlquery.y" /* yacc.c:1646  */
     {printf("\nValid Syntax\n");}
 #line 1288 "sqlquery.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 28 "sqlquery.y" /* yacc.c:1646  */
+#line 29 "sqlquery.y" /* yacc.c:1646  */
     {printf("\nValid Syntax\n");}
 #line 1294 "sqlquery.tab.c" /* yacc.c:1646  */
     break;
@@ -1522,7 +1522,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 77 "sqlquery.y" /* yacc.c:1906  */
+#line 80 "sqlquery.y" /* yacc.c:1906  */
 
 int main()
 {
@@ -1530,7 +1530,4 @@ int main()
 }
 
 void yyerror(char *s)
-{      
-    // printf( "error!!: %s at line %d\n", s, yylineno);
-    // fflush(stdout);
-}
+{}
