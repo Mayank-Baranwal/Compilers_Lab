@@ -9,7 +9,6 @@
 	void line_increment(void);
     void put_class_in_array(char*);
     int exists_class(char*);
-    void print_classes();
     void verify_obj(char*);
 
     //Variable declarations
@@ -37,7 +36,7 @@ oper \+|-|\*|\/|\+=|-=|\*=|\/=|%=|\^=|&=|\|=|<<|>>|>>=|<<=|==|!=|<=|>=|<=>|&&|\|
 
 %option noyywrap
 /*Start conditions --> States for DFA */
-%x CLS_A CLS_B CLS_C CLS_D CNST_A CNST_B DST_A DST_B DST_C
+%x CLS_A CLS_B CLS_C CLS_D CNST_A CNST_B DST_A DST_B
 %%
 
 
@@ -61,17 +60,13 @@ oper \+|-|\*|\/|\+=|-=|\*=|\/=|%=|\^=|&=|\|=|<<|>>|>>=|<<=|==|!=|<=|>=|<=>|&&|\|
 <CLS_D>[^,\n{ ]              	{ put_class_in_array(class_to_add); BEGIN(INITIAL);}
 
 
-[~]                       		{ BEGIN(DST_A);}
-<DST_A>{str}{word}*             { BEGIN(DST_A); }
-<DST_A>[ \t]                 	;
-<DST_A>[(]                   	{ BEGIN(DST_B);}
-<DST_B>[^)]                  	;
-<DST_B>[)]                   	{ BEGIN(DST_C);}
-<DST_C>[ ]                   	{ BEGIN(DST_C);}
-<DST_C>[{:]                  	{ BEGIN(INITIAL);}
-<DST_C>\n                    	{ line_increment(); BEGIN(INITIAL);}
-<DST_C>[^\n{:]               	{ BEGIN(INITIAL);}
-
+[~][ \t]*{str}{word}*[\t ]*[(]	{BEGIN(DST_A) ; }
+<DST_A>[^)]                  	{ BEGIN(DST_A);}
+<DST_A>[)]                   	{ BEGIN(DST_B);}
+<DST_B>[ \t]                 	{ BEGIN(DST_B);}
+<DST_B>[{:]                  	{ BEGIN(INITIAL);}
+<DST_B>\n                    	{ line_increment(); BEGIN(INITIAL);}
+<DST_B>[^\n{:]               	{ BEGIN(INITIAL);}
 
 {str}{word}*[\t ]*[(]          	{ memset(class_to_add, 0, sizeof(class_to_add)) ; sscanf(yytext, "%[A-Za-z0-9_]s", class_to_add); BEGIN(CNST_A) ; }
 <CNST_A>[^)]                  	{ BEGIN(CNST_A);}
@@ -142,19 +137,6 @@ void line_increment(){
     object_in_line = 0;
     inherited_class_in_line = 0;
     constructor_in_line = 0;
-}
-
-//PRITING ALL CLASSES NAMES
-void print_classes(){
-    int cls = 0;
-    char tp[200];
-    printf("Printing class_list : \n");
-    while (cls < class_count){
-        strcpy(tp, class_list[cls]);
-        printf("%s ", tp);
-    	cls++;
-    }
-    printf("\n");
 }
 
 //FUNCTION TO REMOVE COMMENTS AND STRINGS FROM INPUT FILE
@@ -242,10 +224,11 @@ int main()
 	yylex();
 
 	line_increment();
-    printf("Number of Classes           : %d\n", class_total);
-    printf("Number of Inherited classes : %d\n", inherited_class_total);
-    // print_classes();
-    printf("Number of Constructors      : %d\n", constructor_total);
-    printf("Number of Overloading       : %d\n", op_overload_total);
-    printf("Number of Objects           : %d\n", object_total);
+	FILE * opt = fopen ("output.txt", "w");
+	fprintf(opt, "Count of Object Declarations:\t\t\t\t%d\n", object_total);
+	fprintf(opt, "Count of Class Definitions:\t\t\t\t%d\n", class_total);
+	fprintf(opt, "Count of Constructor Definitions:\t\t\t%d\n", constructor_total);
+  fprintf(opt, "Count of Inherited Class Definitions:\t\t\t%d\n", inherited_class_total);
+  fprintf(opt, "Count of Operator Overloaded Function Definitions:\t%d\n", op_overload_total);
+	fclose(opt);
 }

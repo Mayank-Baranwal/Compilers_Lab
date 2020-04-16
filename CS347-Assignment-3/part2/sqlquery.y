@@ -31,7 +31,7 @@ stmt : SELECT LT condition GT LP Table_Name RP      {printf("\nValid Syntax\n");
         ;
 
 // OR has lower precedence than AND
-condition : temp_cond1 OR condition 
+condition : temp_cond1 OR condition
             | temp_cond1
             ;
 
@@ -51,7 +51,7 @@ expression : column op STRING
             | INT op column
             | INT op INT
             | STRING op STRING
-            | LP condition RP  
+            | LP condition RP
             ;
 
 op : LT
@@ -66,7 +66,7 @@ attribute_list : column COMMA attribute_list
                 | column
                 ;
 
-column : column_name 
+column : column_name
         | Table_Name DOT column_name
         ;
 
