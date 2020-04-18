@@ -1,0 +1,671 @@
+Invalid Syntax: Error in line number 1
+-----------------------------------------
+-----------------------------------------
+
+student_id,course_id,score,attendance
+1,CS344,90,75
+1,CS345,100,100
+1,EE101,60,75
+1,MA225,0,75
+2,CS344,30,75
+2,CS345,80,100
+2,MA225,60,75
+3,CS344,100,75
+3,CS345,50,100
+4,EE101,70,75
+5,CS344,70,75
+5,CS345,60,100
+6,MA225,100,75
+Total number of records : 13
+-----------------------------------------
+-----------------------------------------
+
+student.id, student.name, student.dept_id, enroll.student_id, enroll.course_id, enroll.score, enroll.attendance
+1,'NitinKedia',1,1,CS344,90,75
+1,'NitinKedia',1,1,CS345,100,100
+2,'SahibKhan',1,2,CS345,80,100
+3,'PantRohitRakesh',1,3,CS344,100,75
+6,'Shivam',2,6,MA225,100,75
+Total number of records : 5
+-----------------------------------------
+-----------------------------------------
+
+student_id,course_id,score,attendance
+1,CS344,90,75
+1,CS345,100,100
+2,CS345,80,100
+3,CS344,100,75
+6,MA225,100,75
+Total number of records : 5
+-----------------------------------------
+-----------------------------------------
+
+Could not find Table meow.
+-----------------------------------------
+-----------------------------------------
+
+Invalid Syntax: Error in line number 9
+-----------------------------------------
+-----------------------------------------
+
+Invalid Syntax: Error in line number 10
+-----------------------------------------
+-----------------------------------------
+
+A,salary,C,D
+1,2,3,'hello'
+2,300,400,'by,e'
+3,4,5,'eee'
+7,5,3,'eee'
+80,115,45,'ffk'
+100,142,12,'fff'
+16,210,56,'fff'
+12,254,60,'aaa'
+15,213,65,'eea'
+10,100,65,'eea'
+Total number of records : 10
+-----------------------------------------
+-----------------------------------------
+
+Invalid Syntax: Error in line number 12
+-----------------------------------------
+-----------------------------------------
+
+A,salary,C,D
+Error: Column haha does not exist in table test
+Total number of records : 0
+-----------------------------------------
+-----------------------------------------
+
+A,salary,C,D
+Error: Column haha does not exist in table test
+Total number of records : 0
+-----------------------------------------
+-----------------------------------------
+
+id,name,dept_id
+1,'NitinKedia',1
+2,'SahibKhan',1
+3,'PantRohitRakesh',1
+Total number of records : 3
+-----------------------------------------
+-----------------------------------------
+
+id,name,dept_id
+Error: Data types incompatible
+Total number of records : 0
+-----------------------------------------
+-----------------------------------------
+
+id,name,dept_id
+1,'NitinKedia',1
+2,'SahibKhan',1
+3,'PantRohitRakesh',1
+Total number of records : 3
+-----------------------------------------
+-----------------------------------------
+
+id,name,dept_id
+1,'NitinKedia',1
+2,'SahibKhan',1
+3,'PantRohitRakesh',1
+4,'Ram',1
+5,'Shyam',3
+6,'Shivam',2
+Total number of records : 6
+-----------------------------------------
+-----------------------------------------
+
+id,name,dept_id
+1,'NitinKedia',1
+2,'SahibKhan',1
+3,'PantRohitRakesh',1
+4,'Ram',1
+5,'Shyam',3
+6,'Shivam',2
+Total number of records : 6
+-----------------------------------------
+-----------------------------------------
+
+id,name,dept_id
+1,'NitinKedia',1
+2,'SahibKhan',1
+3,'PantRohitRakesh',1
+4,'Ram',1
+6,'Shivam',2
+Total number of records : 5
+-----------------------------------------
+-----------------------------------------
+
+id,name,dept_id
+1,'NitinKedia',1
+3,'PantRohitRakesh',1
+Total number of records : 2
+-----------------------------------------
+-----------------------------------------
+
+A,salary,C,D
+2,300,400,'by,e'
+80,115,45,'ffk'
+100,142,12,'fff'
+16,210,56,'fff'
+12,254,60,'aaa'
+15,213,65,'eea'
+Total number of records : 6
+-----------------------------------------
+-----------------------------------------
+
+Table foo not present
+-----------------------------------------
+-----------------------------------------
+
+Table foo not present
+-----------------------------------------
+-----------------------------------------
+
+Table foo not present
+-----------------------------------------
+-----------------------------------------
+
+student.id, student.name, student.dept_id, enroll.student_id, enroll.course_id, enroll.score, enroll.attendance
+1,'NitinKedia',1,1,CS344,90,75
+1,'NitinKedia',1,1,CS345,100,100
+1,'NitinKedia',1,1,EE101,60,75
+1,'NitinKedia',1,1,MA225,0,75
+2,'SahibKhan',1,2,CS344,30,75
+2,'SahibKhan',1,2,CS345,80,100
+2,'SahibKhan',1,2,MA225,60,75
+3,'PantRohitRakesh',1,3,CS344,100,75
+3,'PantRohitRakesh',1,3,CS345,50,100
+4,'Ram',1,4,EE101,70,75
+5,'Shyam',3,5,CS344,70,75
+5,'Shyam',3,5,CS345,60,100
+6,'Shivam',2,6,MA225,100,75
+Total number of records : 13
+-----------------------------------------
+-----------------------------------------
+
+student.id, student.name, student.dept_id, enroll.student_id, enroll.course_id, enroll.score, enroll.attendance
+1,'NitinKedia',1,2,CS344,30,75
+1,'NitinKedia',1,2,CS345,80,100
+1,'NitinKedia',1,2,MA225,60,75
+1,'NitinKedia',1,3,CS344,100,75
+1,'NitinKedia',1,3,CS345,50,100
+1,'NitinKedia',1,4,EE101,70,75
+1,'NitinKedia',1,5,CS344,70,75
+1,'NitinKedia',1,5,CS345,60,100
+1,'NitinKedia',1,6,MA225,100,75
+Total number of records : 9
+-----------------------------------------
+-----------------------------------------
+
+student.id, student.name, student.dept_id, enroll.student_id, enroll.course_id, enroll.score, enroll.attendance
+1,'NitinKedia',1,1,CS344,90,75
+1,'NitinKedia',1,1,CS345,100,100
+1,'NitinKedia',1,1,EE101,60,75
+1,'NitinKedia',1,1,MA225,0,75
+2,'SahibKhan',1,2,CS344,30,75
+2,'SahibKhan',1,2,CS345,80,100
+2,'SahibKhan',1,2,MA225,60,75
+3,'PantRohitRakesh',1,3,CS344,100,75
+3,'PantRohitRakesh',1,3,CS345,50,100
+4,'Ram',1,4,EE101,70,75
+5,'Shyam',3,5,CS344,70,75
+5,'Shyam',3,5,CS345,60,100
+6,'Shivam',2,6,MA225,100,75
+Total number of records : 13
+-----------------------------------------
+-----------------------------------------
+
+student.id, student.name, student.dept_id, enroll.student_id, enroll.course_id, enroll.score, enroll.attendance
+1,'NitinKedia',1,1,CS344,90,75
+1,'NitinKedia',1,1,CS345,100,100
+1,'NitinKedia',1,1,EE101,60,75
+1,'NitinKedia',1,1,MA225,0,75
+2,'SahibKhan',1,2,CS344,30,75
+2,'SahibKhan',1,2,CS345,80,100
+2,'SahibKhan',1,2,MA225,60,75
+3,'PantRohitRakesh',1,3,CS344,100,75
+3,'PantRohitRakesh',1,3,CS345,50,100
+4,'Ram',1,4,EE101,70,75
+5,'Shyam',3,5,CS344,70,75
+5,'Shyam',3,5,CS345,60,100
+6,'Shivam',2,6,MA225,100,75
+Total number of records : 13
+-----------------------------------------
+-----------------------------------------
+
+Error at line no 32: Error: Column student_id does not exist in table student
+Total number of records : 0
+-----------------------------------------
+-----------------------------------------
+
+Error at line no 33: Column name and student_id do not have same data types
+Total number of records : 0
+-----------------------------------------
+-----------------------------------------
+
+Error at line no 34: Column name and student_id do not have same data types
+Total number of records : 0
+-----------------------------------------
+-----------------------------------------
+
+student.id, student.name, student.dept_id, enroll.student_id, enroll.course_id, enroll.score, enroll.attendance
+1,'NitinKedia',1,1,CS344,90,75
+1,'NitinKedia',1,1,EE101,60,75
+1,'NitinKedia',1,1,MA225,0,75
+2,'SahibKhan',1,2,CS344,30,75
+2,'SahibKhan',1,2,CS345,80,100
+2,'SahibKhan',1,2,MA225,60,75
+Total number of records : 6
+-----------------------------------------
+-----------------------------------------
+
+student.id, student.name, student.dept_id, enroll.student_id, enroll.course_id, enroll.score, enroll.attendance
+1,'NitinKedia',1,1,CS344,90,75
+1,'NitinKedia',1,1,CS345,100,100
+1,'NitinKedia',1,1,EE101,60,75
+1,'NitinKedia',1,1,MA225,0,75
+Total number of records : 4
+-----------------------------------------
+-----------------------------------------
+
+student.id, student.name, student.dept_id, enroll.student_id, enroll.course_id, enroll.score, enroll.attendance
+1,'NitinKedia',1,1,CS344,90,75
+1,'NitinKedia',1,1,CS345,100,100
+1,'NitinKedia',1,1,EE101,60,75
+1,'NitinKedia',1,1,MA225,0,75
+4,'Ram',1,1,CS344,90,75
+4,'Ram',1,1,CS345,100,100
+4,'Ram',1,1,EE101,60,75
+4,'Ram',1,1,MA225,0,75
+4,'Ram',1,2,CS344,30,75
+4,'Ram',1,2,CS345,80,100
+4,'Ram',1,2,MA225,60,75
+4,'Ram',1,3,CS344,100,75
+4,'Ram',1,3,CS345,50,100
+4,'Ram',1,4,EE101,70,75
+4,'Ram',1,5,CS344,70,75
+4,'Ram',1,5,CS345,60,100
+4,'Ram',1,6,MA225,100,75
+Total number of records : 17
+-----------------------------------------
+-----------------------------------------
+
+student.id, student.name, student.dept_id, enroll.student_id, enroll.course_id, enroll.score, enroll.attendance
+1,'NitinKedia',1,1,CS344,90,75
+1,'NitinKedia',1,1,CS345,100,100
+1,'NitinKedia',1,1,EE101,60,75
+1,'NitinKedia',1,1,MA225,0,75
+1,'NitinKedia',1,2,CS344,30,75
+1,'NitinKedia',1,2,CS345,80,100
+1,'NitinKedia',1,2,MA225,60,75
+1,'NitinKedia',1,3,CS344,100,75
+1,'NitinKedia',1,3,CS345,50,100
+1,'NitinKedia',1,4,EE101,70,75
+1,'NitinKedia',1,5,CS344,70,75
+1,'NitinKedia',1,5,CS345,60,100
+1,'NitinKedia',1,6,MA225,100,75
+Total number of records : 13
+-----------------------------------------
+-----------------------------------------
+
+student.id, student.name, student.dept_id, enroll.student_id, enroll.course_id, enroll.score, enroll.attendance
+5,'Shyam',3,1,CS344,90,75
+5,'Shyam',3,1,CS345,100,100
+5,'Shyam',3,1,EE101,60,75
+5,'Shyam',3,1,MA225,0,75
+5,'Shyam',3,2,CS344,30,75
+5,'Shyam',3,2,CS345,80,100
+5,'Shyam',3,2,MA225,60,75
+5,'Shyam',3,3,CS344,100,75
+5,'Shyam',3,3,CS345,50,100
+5,'Shyam',3,4,EE101,70,75
+5,'Shyam',3,5,CS344,70,75
+5,'Shyam',3,5,CS345,60,100
+5,'Shyam',3,6,MA225,100,75
+Total number of records : 13
+-----------------------------------------
+-----------------------------------------
+
+student.id, student.name, student.dept_id, student2.id, student2.name, student2.dept_id
+1,'NitinKedia',1,2,'SahibKhan',1
+1,'NitinKedia',1,3,'PantRohitRakesh',1
+1,'NitinKedia',1,4,'Ram',1
+1,'NitinKedia',1,5,'Shyam',3
+1,'NitinKedia',1,6,'Shivam',2
+2,'SahibKhan',1,1,'NitinKedia',1
+2,'SahibKhan',1,3,'PantRohitRakesh',1
+2,'SahibKhan',1,4,'Ram',1
+2,'SahibKhan',1,5,'Shyam',3
+2,'SahibKhan',1,6,'Shivam',2
+3,'PantRohitRakesh',1,1,'NitinKedia',1
+3,'PantRohitRakesh',1,2,'SahibKhan',1
+3,'PantRohitRakesh',1,4,'Ram',1
+3,'PantRohitRakesh',1,5,'Shyam',3
+3,'PantRohitRakesh',1,6,'Shivam',2
+4,'Ram',1,1,'NitinKedia',1
+4,'Ram',1,2,'SahibKhan',1
+4,'Ram',1,3,'PantRohitRakesh',1
+4,'Ram',1,5,'Shyam',3
+4,'Ram',1,6,'Shivam',2
+5,'Shyam',3,1,'NitinKedia',1
+5,'Shyam',3,2,'SahibKhan',1
+5,'Shyam',3,3,'PantRohitRakesh',1
+5,'Shyam',3,4,'Ram',1
+5,'Shyam',3,6,'Shivam',2
+6,'Shivam',2,1,'NitinKedia',1
+6,'Shivam',2,2,'SahibKhan',1
+6,'Shivam',2,3,'PantRohitRakesh',1
+6,'Shivam',2,4,'Ram',1
+6,'Shivam',2,5,'Shyam',3
+Total number of records : 30
+-----------------------------------------
+-----------------------------------------
+
+student.id, student.name, student.dept_id, student2.id, student2.name, student2.dept_id
+1,'NitinKedia',1,2,'SahibKhan',1
+1,'NitinKedia',1,3,'PantRohitRakesh',1
+1,'NitinKedia',1,4,'Ram',1
+1,'NitinKedia',1,5,'Shyam',3
+1,'NitinKedia',1,6,'Shivam',2
+2,'SahibKhan',1,1,'NitinKedia',1
+2,'SahibKhan',1,3,'PantRohitRakesh',1
+2,'SahibKhan',1,4,'Ram',1
+2,'SahibKhan',1,5,'Shyam',3
+2,'SahibKhan',1,6,'Shivam',2
+3,'PantRohitRakesh',1,1,'NitinKedia',1
+3,'PantRohitRakesh',1,2,'SahibKhan',1
+3,'PantRohitRakesh',1,4,'Ram',1
+3,'PantRohitRakesh',1,5,'Shyam',3
+3,'PantRohitRakesh',1,6,'Shivam',2
+4,'Ram',1,1,'NitinKedia',1
+4,'Ram',1,2,'SahibKhan',1
+4,'Ram',1,3,'PantRohitRakesh',1
+4,'Ram',1,5,'Shyam',3
+4,'Ram',1,6,'Shivam',2
+5,'Shyam',3,1,'NitinKedia',1
+5,'Shyam',3,2,'SahibKhan',1
+5,'Shyam',3,3,'PantRohitRakesh',1
+5,'Shyam',3,4,'Ram',1
+5,'Shyam',3,6,'Shivam',2
+6,'Shivam',2,1,'NitinKedia',1
+6,'Shivam',2,2,'SahibKhan',1
+6,'Shivam',2,3,'PantRohitRakesh',1
+6,'Shivam',2,4,'Ram',1
+6,'Shivam',2,5,'Shyam',3
+Total number of records : 30
+-----------------------------------------
+-----------------------------------------
+
+Invalid Syntax: Error in line number 45
+-----------------------------------------
+-----------------------------------------
+
+student2.id, student2.name, student2.dept_id, enroll2.student_id, enroll2.course_id, enroll2.score, enroll2.attendance
+1,'NitinKedia',1,1,CS344,90,75
+1,'NitinKedia',1,1,CS345,100,100
+1,'NitinKedia',1,1,EE101,60,75
+1,'NitinKedia',1,1,MA225,0,75
+1,'NitinKedia',1,2,CS344,30,75
+1,'NitinKedia',1,2,CS345,80,100
+1,'NitinKedia',1,2,MA225,60,75
+1,'NitinKedia',1,3,CS344,100,75
+1,'NitinKedia',1,3,CS345,50,100
+1,'NitinKedia',1,4,EE101,70,75
+1,'NitinKedia',1,5,CS344,70,75
+1,'NitinKedia',1,5,CS345,60,100
+1,'NitinKedia',1,6,MA225,100,75
+2,'SahibKhan',1,1,CS344,90,75
+2,'SahibKhan',1,1,CS345,100,100
+2,'SahibKhan',1,1,EE101,60,75
+2,'SahibKhan',1,1,MA225,0,75
+2,'SahibKhan',1,2,CS344,30,75
+2,'SahibKhan',1,2,CS345,80,100
+2,'SahibKhan',1,2,MA225,60,75
+2,'SahibKhan',1,3,CS344,100,75
+2,'SahibKhan',1,3,CS345,50,100
+2,'SahibKhan',1,4,EE101,70,75
+2,'SahibKhan',1,5,CS344,70,75
+2,'SahibKhan',1,5,CS345,60,100
+2,'SahibKhan',1,6,MA225,100,75
+3,'PantRohitRakesh',1,1,CS344,90,75
+3,'PantRohitRakesh',1,1,CS345,100,100
+3,'PantRohitRakesh',1,1,EE101,60,75
+3,'PantRohitRakesh',1,1,MA225,0,75
+3,'PantRohitRakesh',1,2,CS344,30,75
+3,'PantRohitRakesh',1,2,CS345,80,100
+3,'PantRohitRakesh',1,2,MA225,60,75
+3,'PantRohitRakesh',1,3,CS344,100,75
+3,'PantRohitRakesh',1,3,CS345,50,100
+3,'PantRohitRakesh',1,4,EE101,70,75
+3,'PantRohitRakesh',1,5,CS344,70,75
+3,'PantRohitRakesh',1,5,CS345,60,100
+3,'PantRohitRakesh',1,6,MA225,100,75
+4,'Ram',1,1,CS344,90,75
+4,'Ram',1,1,CS345,100,100
+4,'Ram',1,1,EE101,60,75
+4,'Ram',1,1,MA225,0,75
+4,'Ram',1,2,CS344,30,75
+4,'Ram',1,2,CS345,80,100
+4,'Ram',1,2,MA225,60,75
+4,'Ram',1,3,CS344,100,75
+4,'Ram',1,3,CS345,50,100
+4,'Ram',1,4,EE101,70,75
+4,'Ram',1,5,CS344,70,75
+4,'Ram',1,5,CS345,60,100
+4,'Ram',1,6,MA225,100,75
+5,'Shyam',3,1,CS344,90,75
+5,'Shyam',3,1,CS345,100,100
+5,'Shyam',3,1,EE101,60,75
+5,'Shyam',3,1,MA225,0,75
+5,'Shyam',3,2,CS344,30,75
+5,'Shyam',3,2,CS345,80,100
+5,'Shyam',3,2,MA225,60,75
+5,'Shyam',3,3,CS344,100,75
+5,'Shyam',3,3,CS345,50,100
+5,'Shyam',3,4,EE101,70,75
+5,'Shyam',3,5,CS344,70,75
+5,'Shyam',3,5,CS345,60,100
+5,'Shyam',3,6,MA225,100,75
+6,'Shivam',2,1,CS344,90,75
+6,'Shivam',2,1,CS345,100,100
+6,'Shivam',2,1,EE101,60,75
+6,'Shivam',2,1,MA225,0,75
+6,'Shivam',2,2,CS344,30,75
+6,'Shivam',2,2,CS345,80,100
+6,'Shivam',2,2,MA225,60,75
+6,'Shivam',2,3,CS344,100,75
+6,'Shivam',2,3,CS345,50,100
+6,'Shivam',2,4,EE101,70,75
+6,'Shivam',2,5,CS344,70,75
+6,'Shivam',2,5,CS345,60,100
+6,'Shivam',2,6,MA225,100,75
+The number of records found: 78
+-----------------------------------------
+-----------------------------------------
+
+-----------------------------------------
+-----------------------------------------
+
+Invalid Syntax: Error in line number 49
+-----------------------------------------
+-----------------------------------------
+
+A salary C D 
+1 2 3 'hello' 
+2 300 400 'by 
+3 4 5 'eee' 
+7 5 3 'eee' 
+80 115 45 'ffk' 
+100 142 12 'fff' 
+16 210 56 'fff' 
+12 254 60 'aaa' 
+15 213 65 'eea' 
+10 100 65 'eea' 
+The number of records found: 10
+-----------------------------------------
+-----------------------------------------
+
+A C D 
+1 3 'hello' 
+2 400 'by 
+3 5 'eee' 
+7 3 'eee' 
+80 45 'ffk' 
+100 12 'fff' 
+16 56 'fff' 
+12 60 'aaa' 
+15 65 'eea' 
+10 65 'eea' 
+The number of records found: 10
+-----------------------------------------
+-----------------------------------------
+
+salary C D 
+2 3 'hello' 
+300 400 'by 
+4 5 'eee' 
+5 3 'eee' 
+115 45 'ffk' 
+142 12 'fff' 
+210 56 'fff' 
+254 60 'aaa' 
+213 65 'eea' 
+100 65 'eea' 
+The number of records found: 10
+-----------------------------------------
+-----------------------------------------
+
+ERROR: 5 column(s) not found.
+-----------------------------------------
+-----------------------------------------
+
+ERROR: 5 column(s) not found.
+-----------------------------------------
+-----------------------------------------
+
+A salary C D 
+1 2 3 'hello' 
+2 300 400 'by 
+3 4 5 'eee' 
+7 5 3 'eee' 
+80 115 45 'ffk' 
+100 142 12 'fff' 
+16 210 56 'fff' 
+12 254 60 'aaa' 
+15 213 65 'eea' 
+10 100 65 'eea' 
+The number of records found: 10
+-----------------------------------------
+-----------------------------------------
+
+D 
+'hello' 
+'by 
+'eee' 
+'eee' 
+'ffk' 
+'fff' 
+'fff' 
+'aaa' 
+'eea' 
+'eea' 
+The number of records found: 10
+-----------------------------------------
+-----------------------------------------
+
+Could not find Table bhosdike.
+-----------------------------------------
+-----------------------------------------
+
+Roll 
+The number of records found: 0
+-----------------------------------------
+-----------------------------------------
+
+Dept 
+The number of records found: 0
+-----------------------------------------
+-----------------------------------------
+
+id,Name,Salary
+Error: Column salary does not exist in table Employee
+Total number of records : 0
+-----------------------------------------
+-----------------------------------------
+
+id,Name,Salary
+2,'Jill',30
+4,'John',120
+6,'Mishra',100
+7,'Sujoy',150
+8,'Mitansh',130
+9,'Nitin',110
+10,'Shubhendu',122
+Total number of records : 7
+-----------------------------------------
+-----------------------------------------
+
+id,Name,Salary
+1,'John',400
+4,'John',120
+Total number of records : 2
+-----------------------------------------
+-----------------------------------------
+
+id,Name,Salary
+1,'John',400
+4,'John',120
+Total number of records : 2
+-----------------------------------------
+-----------------------------------------
+
+id,Name,Salary
+2,'Jill',30
+3,'Jack',400
+Total number of records : 2
+-----------------------------------------
+-----------------------------------------
+
+id,Name,Salary
+1,'John',400
+4,'John',120
+Total number of records : 2
+-----------------------------------------
+-----------------------------------------
+
+id,Name,Salary
+Error: Data types incompatible
+Total number of records : 0
+-----------------------------------------
+-----------------------------------------
+
+Invalid Syntax: Error in line number 70
+-----------------------------------------
+-----------------------------------------
+
+Invalid Syntax: Error in line number 72
+-----------------------------------------
+-----------------------------------------
+
+id,Name,Salary
+1,'John',400
+4,'John',120
+Total number of records : 2
+-----------------------------------------
+-----------------------------------------
+
+id,Name,Salary
+1,'John',400
+6,'Mishra',100
+Total number of records : 2
+-----------------------------------------
+-----------------------------------------
+
+id,Name,Salary
+1,'John',400
+Total number of records : 1
+-----------------------------------------
+-----------------------------------------
+

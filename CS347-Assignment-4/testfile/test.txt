@@ -1,0 +1,75 @@
+(test) EQUI_JOIN <test.A = test.A AND> (test2)
+SELECT <student_id<=5 AND score>50 OR attendance>=75> (enroll)
+(student) EQUI_JOIN <id = student_id AND score > 75> (enroll)
+
+SELECT <score>=75> (enroll)
+
+
+SELECT <salary<2> (meow)
+SELECT <salary> (test)
+SELECT (test) <salary>2>
+SELECT <> (test)
+SELECT (test)
+SELECT <haha<2> (test)
+SELECT <2>=haha> (test)
+SELECT <3>=id> (student)
+SELECT <3<=name> (student)
+SELECT <id<=3 AND dept_id>=1> (student)
+SELECT <id<=3 AND dept_id>=1 OR id>3 AND dept_id>=1> (student)
+SELECT <(id<=3 AND dept_id>=1) OR (id>3 AND dept_id>=1)> (student)
+SELECT <(id<=3 AND dept_id>=1) OR (id>3 AND dept_id<3)> (student)
+SELECT <name<'Ram'> (student)
+SELECT <(A>=22 OR salary > 200 AND (C > 50 AND (D='fff' OR D='eef') OR D<='eee'))> (test)
+
+(foo) EQUI_JOIN< foo.oof = bar.rab > (bar)
+(foo) EQUI_JOIN< foo.oof = student.id > (student)
+(student) EQUI_JOIN< student.id = foo.oof > (foo)
+(student) EQUI_JOIN <student.id = enroll.student_id> (enroll)
+(student) EQUI_JOIN <NOT(student.id = enroll.student_id) AND student.id=1> (enroll)
+
+(student) EQUI_JOIN <enroll.student_id = student.id> (enroll)
+(student) EQUI_JOIN <student_id = id> (enroll)
+(student) EQUI_JOIN <student.student_id = student._id> (enroll)
+(student) EQUI_JOIN <student.name=enroll.student_id> (enroll)
+(student) EQUI_JOIN <NOT(student.name=enroll.student_id)> (enroll)
+
+(student) EQUI_JOIN <student.id=enroll.student_id AND (student.id=1 OR student.id=2) AND enroll.score!=100> (enroll)
+
+(student) EQUI_JOIN <student.id=enroll.student_id AND student.name='NitinKedia'> (enroll)
+(student) EQUI_JOIN <student.id=enroll.student_id AND student.name='NitinKedia' OR name='Ram'> (enroll)
+(student) EQUI_JOIN <student.name='NitinKedia'> (enroll)
+(student) EQUI_JOIN <'Shyam'=student.name> (enroll)
+(student) EQUI_JOIN <student.name!=student2.name> (student2)
+(student) EQUI_JOIN <NOT (student.name=student2.name)> (student2)
+
+(student) EQUI_JOIN <> (student2)
+
+(student2) CARTESIAN_PRODUCT (enroll2)
+(st) CARTESIAN_PRODUCT (student)
+(enroll2) (enroll2) CARTESIAN_PRODUCT (student2)
+
+
+PROJECT <A,salary, salary, C, D> (test)
+PROJECT <A, C, D> (test)
+PROJECT <salary, salary, C, D> (test)
+PROJECT <A,salary, salary, C, D> (enroll)
+PROJECT <A,salary, salary, C, D> (student)
+PROJECT <A,salary, salary, C, D> (test)
+PROJECT <D> (test)
+PROJECT <Name, Roll, Dept> (bhosdike)
+PROJECT <Roll> (test3)
+PROJECT <Dept> (test3)
+
+SELECT <Name='John' AND salary>2000> (Employee)
+SELECT <Salary<200> (Employee)
+SELECT <Name='John'> (Employee)
+SELECT <Name='John' OR Name='John'> (Employee)
+SELECT <NOT(Name>='John')> (Employee)
+SELECT <(Name='John')> (Employee)
+SELECT <(Name=1)> (Employee)
+SELECT <()> (Department)
+
+SELECT (Employee) <(Name='Jill')>
+SELECT <(Name='John' OR Name='Jill') AND Salary!=30> (Employee)
+SELECT <(Name='John' AND id=1 OR Salary=100)> (Employee)
+SELECT <(Name='John' AND (id=1 OR Salary=100))> (Employee)
