@@ -1,5 +1,6 @@
 %{
 # include "sqlquery.tab.h"
+#include "string.h"
 %}
 
 %%
@@ -19,8 +20,28 @@
 \!\=                            {return NE;}           
 ,                               { return COMMA; }
 \.                              { return DOT; }
-\'[0-9A-Za-z_,]*\'                { sprintf(yylval.charText,"%s", yytext); return STRING; }
-\"[0-9A-Za-z_,]*\"                { sprintf(yylval.charText,"%s", yytext); return STRING; }
+\'[0-9A-Za-z_,]*\'                { 
+									char help[200];
+									int j=0;
+									//removing inverted commas
+									int len=strlen(yytext);
+									for(int i=1;i<len-1;i++)
+										help[j++]=yytext[i];
+									help[j]='\0';
+									sprintf(yylval.charText,"%s", help); 
+									return STRING; 
+								  }
+\"[0-9A-Za-z_,]*\"                { 
+									char help[200];
+									int j=0;
+									//removing inverted commas
+									int len=strlen(yytext);
+									for(int i=1;i<len-1;i++)
+										help[j++]=yytext[i];
+									help[j]='\0';
+									sprintf(yylval.charText,"%s", help); 
+									return STRING;
+								  }
 [(]                             { return LP; }
 [)]                             { return RP; }
 [A-Za-z_][0-9A-Za-z_]*          { sprintf(yylval.charText,"%s", yytext); return ID; }

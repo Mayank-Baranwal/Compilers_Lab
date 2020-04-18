@@ -3,6 +3,7 @@
 
 #define max_length 1000
 
+//Add new element in the and condition list
 AndList combineAndList(struct AndList and_condition, struct AndEntry expr)
 {
     AndEntry* elem = malloc( sizeof(AndEntry) );
@@ -13,6 +14,7 @@ AndList combineAndList(struct AndList and_condition, struct AndEntry expr)
     return and_condition;
 }
 
+//Add new element in the or condition list
 OrList combineOrList(struct OrList or_condition, struct AndList and_condition)
 {
     AndList* list = malloc( sizeof(AndList) );
@@ -23,6 +25,7 @@ OrList combineOrList(struct OrList or_condition, struct AndList and_condition)
     return or_condition;
 }
 
+//Print all elements in an OR condition list along wih columns
 void ShowList(struct OrList or_condition)
 {
     AndList* list = or_condition.head;
@@ -40,7 +43,7 @@ void ShowList(struct OrList or_condition)
     }
 }
 
-
+//Extract Type of column in table
 char *getType(char *tbl, int indCol){
     char tbltmp[400];
     memset(tbltmp,0,400);
@@ -55,6 +58,7 @@ char *getType(char *tbl, int indCol){
     tok = strtok(str, s);
     char data_type[10];
     memset(data_type, 0, 10);
+    //Iterate through all tokens in string
     while( tok != NULL ) {
         if (indCol == j) {
             fclose(file);
@@ -67,12 +71,13 @@ char *getType(char *tbl, int indCol){
     return NULL;
 }
 
-
+//Return token belonging to particular column
 char *returnValue(char *str, int indCol) {
     char *tok;
     const char *s = ",";
     tok = strtok(str, s);
     int i = 0;
+    //Iterate through all tokens in string
     while( tok != NULL ) {
         if (indCol != i){
             tok = strtok(NULL, s);
@@ -83,7 +88,8 @@ char *returnValue(char *str, int indCol) {
     }
 }
 
-int columnNumber(char *tbl, char *col) { // tbl already .csv appended
+//Find index of column name in table
+int columnNumber(char *tbl, char *col) { // Table name has .csv attached at end
     char tbltmp[400];
     memset(tbltmp,0,400);
     sprintf(tbltmp,"testfile/%s.csv",tbl);
@@ -95,8 +101,8 @@ int columnNumber(char *tbl, char *col) { // tbl already .csv appended
     fgets(str, 2000, file);
     sscanf(str, "%[^\n]", str);
     tok = strtok(str, s);
+    //Iterate through all tokens in string
     while( tok != NULL ) {
-        // printf("col - %s %d %d\n", tok, strlen(tok), strlen(col));
         if (strcmp(tok, col) != 0) {
             j++;
             tok = strtok(NULL, s);
@@ -109,14 +115,8 @@ int columnNumber(char *tbl, char *col) { // tbl already .csv appended
     return -1; 
 }
 
+//Print resulting equijoin of 2 tables
 int showEquiJoin(char *tableEntry1, char *tableEntry2, struct OrList *conditions) {
-    /*char table1Name[400];
-    memset(table1Name, 0, 400);
-    sprintf(table1Name, "testfile/%s.csv", tableEntry1);
-    char table2Name[400];
-    memset(table2Name, 0, 400);
-    sprintf(table2Name, "testfile/%s.csv", tableEntry2);*/
-    
     char file_name[2][400];
     memset(file_name,0,sizeof(file_name));
     sprintf(file_name[0],"testfile/%s.csv",tableEntry1);
@@ -124,52 +124,52 @@ int showEquiJoin(char *tableEntry1, char *tableEntry2, struct OrList *conditions
     FILE* file1 = fopen(file_name[0],"r");
     FILE* file2 = fopen(file_name[1],"r");
 
-    char str1[2000];
-    fgets(str1, 2000, file1);
-    sscanf(str1, "%[^\n]s", str1);
+    char firstString[2000];
+    fgets(firstString, 2000, file1);
+    sscanf(firstString, "%[^\n]s", firstString);
     char *token1;
     const char *s = ",";
-    token1 = strtok(str1, s);
+    token1 = strtok(firstString, s);
+    //Extract all column names of 1st table
     while (token1 != NULL) {
         printf( "%s.%s, ", tableEntry1, token1);
         token1 = strtok(NULL, s);        
     }
-    char str2[2000];
-    fgets(str2, 2000, file2);
+    char secondString[2000];
+    fgets(secondString, 2000, file2);
     char *token2;
-    token2 = strtok(str2, s);
+    token2 = strtok(secondString, s);
+    //Extract all column names of 2nd table
     while (token2 != NULL) {
         printf( "%s.%s", tableEntry2, token2);
         token2 = strtok(NULL, s);
         if (token2 != NULL) printf(", ");        
     }
-    fgets(str1, 2000, file1);
-    fgets(str2, 2000, file2);
-    // printf("%s", str1);
-    // printf(",%s", str2);
+    fgets(firstString, 2000, file1);
+    fgets(secondString, 2000, file2);
     fclose(file2);
-    int numOfRecords = 0;
-    while(fgets(str1, 2000, file1)) {
-        sscanf(str1, "%[^\n]s", str1);
+    int recordCount = 0;
+    //Perform equijoin
+    while(fgets(firstString, 2000, file1)) {
+        sscanf(firstString, "%[^\n]s", firstString);
 
         file2 = fopen(file_name[1],"r");
-        /*fgets(str2, 2000, file2);
-        fgets(str2, 2000, file2);*/
-        int k=0;
-        for(k=0;k<2;k++) fgets(str2, 2000, file2);
-        while (fgets(str2, 2000, file2)) {
-            if (computingCondEquiJoin(*conditions, str1, str2, tableEntry1, tableEntry2)) {
-                printf("%s", str1);
-                printf(",%s", str2);
-                numOfRecords++;
+            int k=0;
+        for(k=0;k<2;k++) fgets(secondString, 2000, file2);
+        while (fgets(secondString, 2000, file2)) {
+            if (computingCondEquiJoin(*conditions, firstString, secondString, tableEntry1, tableEntry2)) {
+                printf("%s", firstString);
+                printf(",%s", secondString);
+                recordCount++;
             };
         } 
         fclose(file2);     
     }
     fclose(file1);
-    return numOfRecords;
+    return recordCount;
 }
 
+//Compute the Select condition
 int computingCondSelect(struct OrList condition, char *str, char* tblTitle){
     AndList* tp = condition.head;
     if(tp){
@@ -186,6 +186,7 @@ int computingCondSelect(struct OrList condition, char *str, char* tblTitle){
                     ret = comparatorSelect(*tp2, cpyStr, tblTitle);
                 }
                 else {
+                    //Nested query computation
                     ret = computingCondSelect(*(tp2->nestedCond), cpyStr, tblTitle);
                 }
                 if(ret != -1){
@@ -211,6 +212,7 @@ int computingCondSelect(struct OrList condition, char *str, char* tblTitle){
         return 1;
 }
 
+//Invert certain operations
 int makeComplement(int oper) {
     if (oper > 4)
         return oper;
@@ -221,7 +223,7 @@ int makeComplement(int oper) {
         return oper+1;     
 }
 
-
+//Compare operands based on operator
 int operandComparison(int num1, int num2, int oper) {
     switch(oper){
         case 6: return num1 != num2; break;
@@ -235,31 +237,16 @@ int operandComparison(int num1, int num2, int oper) {
  
 }
 
-int operandComparisonString(char *str1, char *str2, int oper){
-    // printf("--%s--%s--", str1, str2);
-    int returnType = strcmp(str1, str2);
-    /*if (oper == 1 && returnType < 0)
-        return 1;
-    else if (oper == 2 && returnType > 0)
-        return 1;
-    else if (oper == 3 && returnType <= 0)
-        return 1;
-    else if (oper == 4 && returnType >= 0)
-        return 1;
-    else if (oper == 5 && returnType == 0)
-        return 1;
-    else if (oper == 6 && returnType != 0)
-        return 1;
-    else
-        return 0;*/
-    
+//String comparision based on operator
+int operandComparisonString(char *firstString, char *secondString, int oper){
+    int returnType = strcmp(firstString, secondString);
     if((oper == 1 && returnType < 0)||(oper == 2 && returnType > 0)||(oper == 3 && returnType <= 0)||(oper == 4 && returnType >= 0)||(oper == 5 && returnType == 0)||(oper == 6 && returnType != 0)) return 1;
     else return 0;
 }
  
-int comparatorSelect(struct AndEntry unit, char *str1, char* tblTitle) {
+//Perform sanity checks for Select 
+int comparatorSelect(struct AndEntry unit, char *firstString, char* tblTitle) {
     if (unit.findInteger2) { // col oper INT
-        // printf("I'm %s %s here\n", tblTitle, unit.columnEntry1);
         if(unit.tableEntry1 != NULL && strcmp(unit.tableEntry1, tblTitle)!=0){
             printf("Error: Table %s exists instead of table %s\n", tblTitle, unit.tableEntry1);
             return -1;
@@ -274,7 +261,7 @@ int comparatorSelect(struct AndEntry unit, char *str1, char* tblTitle) {
             printf("Error: Data types incompatible\n");
             return -1;
         }
-        unit.firstVal = atoi(returnValue(str1, indCol));
+        unit.firstVal = atoi(returnValue(firstString, indCol));
         return operandComparison(unit.firstVal, unit.secondVal, unit.operation);
     }
     else if (unit.findInteger1) {
@@ -292,10 +279,11 @@ int comparatorSelect(struct AndEntry unit, char *str1, char* tblTitle) {
             printf("Error: Data types incompatible\n");
             return -1;
         }
-        unit.secondVal = atoi(returnValue(str1, indCol));
+        unit.secondVal = atoi(returnValue(firstString, indCol));
         return operandComparison(unit.firstVal, unit.secondVal, unit.operation);
     }
-    else if(unit.str1 != NULL && unit.str2==NULL){
+    //Checking existence of tables
+    else if(unit.firstString != NULL && unit.secondString==NULL){
         if(unit.tableEntry2 != NULL && strcmp(unit.tableEntry2, tblTitle)!=0){
             printf("Error: Table %s exists instead of table %s\n", tblTitle, unit.tableEntry2);
             return -1;
@@ -310,11 +298,10 @@ int comparatorSelect(struct AndEntry unit, char *str1, char* tblTitle) {
             printf("Error: Data types incompatible\n");
             return -1;
         }
-        unit.str2 = returnValue(str1, indCol);
-        return operandComparisonString(unit.str1, unit.str2, unit.operation);
+        unit.secondString = returnValue(firstString, indCol);
+        return operandComparisonString(unit.firstString, unit.secondString, unit.operation);
     }
-    else if(unit.str1 == NULL && unit.str2!=NULL){
-        // printf("I'm %s %s here\n", tblTitle, unit.str2);
+    else if(unit.firstString == NULL && unit.secondString!=NULL){
         if(unit.tableEntry1 != NULL && strcmp(unit.tableEntry1, tblTitle)!=0){
             printf("Error: Table %s exists instead of table %s\n", tblTitle, unit.tableEntry1);
             return -1;
@@ -329,8 +316,8 @@ int comparatorSelect(struct AndEntry unit, char *str1, char* tblTitle) {
             printf("Error: Data types incompatible\n");
             return -1;
         }
-        unit.str1 = returnValue(str1, indCol);
-        return operandComparisonString(unit.str1, unit.str2, unit.operation);
+        unit.firstString = returnValue(firstString, indCol);
+        return operandComparisonString(unit.firstString, unit.secondString, unit.operation);
     }
     else {
         if(unit.tableEntry2 != NULL && strcmp(unit.tableEntry2, tblTitle)!=0){
@@ -356,21 +343,21 @@ int comparatorSelect(struct AndEntry unit, char *str1, char* tblTitle) {
             return -1;
         }
         if(strcmp(getType(tblTitle, colIndex1), "str")){
-            unit.str1 = returnValue(str1, colIndex1);
-            unit.str2 = returnValue(str1, colIndex2);
-            return operandComparisonString(unit.str1, unit.str2, unit.operation);
+            unit.firstString = returnValue(firstString, colIndex1);
+            unit.secondString = returnValue(firstString, colIndex2);
+            return operandComparisonString(unit.firstString, unit.secondString, unit.operation);
         }
         else{
-            unit.firstVal = atoi(returnValue(str1, colIndex1));
-            unit.secondVal = atoi(returnValue(str1, colIndex2));
+            unit.firstVal = atoi(returnValue(firstString, colIndex1));
+            unit.secondVal = atoi(returnValue(firstString, colIndex2));
             return operandComparison(unit.firstVal, unit.secondVal, unit.operation);
         }
     }
     return -1;    
 }
 
-
-int computingCondEquiJoin(struct OrList condition, char *str1, char *str2, char *tableEntry1, char *tableEntry2){
+//Compute result for conditional equi join
+int computingCondEquiJoin(struct OrList condition, char *firstString, char *secondString, char *tableEntry1, char *tableEntry2){
     AndList* tp = condition.head;
     int result = 0;
     
@@ -380,12 +367,13 @@ int computingCondEquiJoin(struct OrList condition, char *str1, char *str2, char 
         while(tp2!=NULL){
             char str_copy1[2000];
             memset(str_copy1, 0, 2000);
-            sprintf(str_copy1, "%s", str1);
+            sprintf(str_copy1, "%s", firstString);
             char str_copy2[2000];
             memset(str_copy2, 0, 2000);
-            sprintf(str_copy2, "%s", str2);
+            sprintf(str_copy2, "%s", secondString);
             int ret;
             if(tp2->isCondition == 1){
+                //Nested equijoin query
                 ret = computingCondEquiJoin(*(tp2->nestedCond), str_copy1, str_copy2, tableEntry1, tableEntry2);
             } else {
                 ret = comparatorEquiJoin(*tp2, str_copy1, str_copy2, tableEntry1, tableEntry2);
@@ -408,7 +396,8 @@ int computingCondEquiJoin(struct OrList condition, char *str1, char *str2, char 
     return result;
 }
 
-int comparatorEquiJoin(struct AndEntry unit, char *str1, char *str2, char *tableEntry1, char *tableEntry2) {
+//Perform condition comparision for equi join
+int comparatorEquiJoin(struct AndEntry unit, char *firstString, char *secondString, char *tableEntry1, char *tableEntry2) {
     if (unit.findInteger2) { // col oper INT
         int indCol = columnNumber(unit.tableEntry1, unit.columnEntry1);
         if (indCol == -1) {
@@ -416,26 +405,27 @@ int comparatorEquiJoin(struct AndEntry unit, char *str1, char *str2, char *table
             return -1;
         }
         if (strcmp(unit.tableEntry1, tableEntry1) == 0)
-            unit.firstVal = atoi(returnValue(str1, indCol));
+            unit.firstVal = atoi(returnValue(firstString, indCol));
         else 
-            unit.firstVal = atoi(returnValue(str2, indCol));
+            unit.firstVal = atoi(returnValue(secondString, indCol));
         return operandComparison(unit.firstVal, unit.secondVal, unit.operation);
     }
-    else if (unit.str1 == NULL && unit.str2 != NULL) { // col oper str
+    else if (unit.firstString == NULL && unit.secondString != NULL) { // col oper str
         int indCol = columnNumber(unit.tableEntry1, unit.columnEntry1);
         if (indCol == -1) {
             printf("Error: Column %s does not exist in table %s\n", unit.columnEntry1, unit.tableEntry1);
             return -1;
         }
         if (strcmp(unit.tableEntry1, tableEntry1) == 0){
-            unit.str1 = returnValue(str1, indCol);
+            unit.firstString = returnValue(firstString, indCol);
         }
         else{
-            unit.str1 = returnValue(str2, indCol);   
+            unit.firstString = returnValue(secondString, indCol);   
         }
-        return operandComparisonString(unit.str1, unit.str2, unit.operation);
+        return operandComparisonString(unit.firstString, unit.secondString, unit.operation);
     }
     else { // col oper col
+        //Checking existence of columns in table
         int colIndex1 = columnNumber(unit.tableEntry1, unit.columnEntry1);
         int colIndex2 = columnNumber(unit.tableEntry2, unit.columnEntry2);
         if (colIndex1 == -1) {
@@ -450,35 +440,35 @@ int comparatorEquiJoin(struct AndEntry unit, char *str1, char *str2, char *table
         sprintf(d1, "%s", getType(unit.tableEntry1, columnNumber(unit.tableEntry1, unit.columnEntry1)));
         if (strcmp(d1, "int") == 0) {
             if (strcmp(unit.tableEntry1, tableEntry1) == 0)
-                unit.firstVal = atoi(returnValue(str1, colIndex1));
+                unit.firstVal = atoi(returnValue(firstString, colIndex1));
             else 
-                unit.firstVal = atoi(returnValue(str2, colIndex1));
+                unit.firstVal = atoi(returnValue(secondString, colIndex1));
 
             if (strcmp(unit.tableEntry2, tableEntry2) == 0)
-                unit.secondVal = atoi(returnValue(str2, colIndex2));
+                unit.secondVal = atoi(returnValue(secondString, colIndex2));
             else 
-                unit.secondVal = atoi(returnValue(str1, colIndex2));
+                unit.secondVal = atoi(returnValue(firstString, colIndex2));
 
             return operandComparison(unit.firstVal, unit.secondVal, unit.operation);
         }
         else if (strcmp(d1, "str") == 0) {
             if (strcmp(unit.tableEntry1, tableEntry1) == 0)
-                unit.str1 = returnValue(str1, colIndex1);
+                unit.firstString = returnValue(firstString, colIndex1);
             else 
-                unit.str1 = returnValue(str2, colIndex1);
+                unit.firstString = returnValue(secondString, colIndex1);
 
             if (strcmp(unit.tableEntry2, tableEntry2) == 0)
-                unit.str2 = returnValue(str2, colIndex2);
+                unit.secondString = returnValue(secondString, colIndex2);
             else 
-                unit.str2 = returnValue(str1, colIndex2);
+                unit.secondString = returnValue(firstString, colIndex2);
 
-            return operandComparisonString(unit.str1, unit.str2, unit.operation);
+            return operandComparisonString(unit.firstString, unit.secondString, unit.operation);
         }
     }
     return -1;    
 }
 
-
+//Attach tables together
 int attachTable(char *tableEntry1, char *tableEntry2, struct OrList *conditions) {
     AndList *tp = conditions->head;
     while(tp != NULL) {
@@ -489,9 +479,10 @@ int attachTable(char *tableEntry1, char *tableEntry2, struct OrList *conditions)
             }
             else {
                 if (tp2->findInteger2) { // col oper INT
+                    //Check for existence of column in tables
                     if (tp2->tableEntry1 == NULL) {
                         if (columnNumber(tableEntry1, tp2->columnEntry1) != -1 && columnNumber(tableEntry2, tp2->columnEntry1) != -1) {
-                            fprintf(stdout, "Success at line no %d: Column %s exists in tables %s and %s\n", yylinenumber, tp2->columnEntry1, tableEntry1, tableEntry2);
+                            fprintf(stdout, "Error at line no %d: Column %s exists in tables %s and %s\n", yylinenumber, tp2->columnEntry1, tableEntry1, tableEntry2);
                             return -1;
                         }
                         else if (columnNumber(tableEntry1, tp2->columnEntry1) != -1) tp2->tableEntry1 = tableEntry1;
@@ -518,9 +509,10 @@ int attachTable(char *tableEntry1, char *tableEntry2, struct OrList *conditions)
                         return -1;
                     }
                 }
-                else if (tp2->str2 != NULL) { // col oper str
+                //Check for existence of column in tables -- String type
+                else if (tp2->secondString != NULL) { // col oper str
                     if (columnNumber(tableEntry1, tp2->columnEntry1) != -1 && columnNumber(tableEntry2, tp2->columnEntry1) != -1) {
-                        fprintf(stdout, "Success at line no %d: Column %s exists in tables %s and %s\n", yylinenumber, tp2->columnEntry1, tableEntry1, tableEntry2);
+                        fprintf(stdout, "Error at line no %d: Column %s exists in tables %s and %s\n", yylinenumber, tp2->columnEntry1, tableEntry1, tableEntry2);
                         return -1;
                     }
                     if (tp2->tableEntry1 == NULL) {
@@ -551,7 +543,7 @@ int attachTable(char *tableEntry1, char *tableEntry2, struct OrList *conditions)
                 else { // col oper col
                     if (tp2->tableEntry1 == NULL) {
                         if (columnNumber(tableEntry1, tp2->columnEntry1) != -1 && columnNumber(tableEntry2, tp2->columnEntry1) != -1) {
-                            fprintf(stdout, "Success at line no %d: Column %s exists in tables %s and %s\n", yylinenumber, tp2->columnEntry1, tableEntry1, tableEntry2);
+                            fprintf(stdout, "Error at line no %d: Column %s exists in tables %s and %s\n", yylinenumber, tp2->columnEntry1, tableEntry1, tableEntry2);
                             return -1;
                         }
                         if (columnNumber(tableEntry1, tp2->columnEntry1) != -1) tp2->tableEntry1 = tableEntry1;
@@ -573,7 +565,7 @@ int attachTable(char *tableEntry1, char *tableEntry2, struct OrList *conditions)
                     }
                     if (tp2->tableEntry2 == NULL) {
                         if (columnNumber(tableEntry1, tp2->columnEntry1) != -1 && columnNumber(tableEntry2, tp2->columnEntry1) != -1) {
-                            fprintf(stdout, "Success at line no %d: Column %s exists in tables %s and %s\n", yylinenumber, tp2->columnEntry1, tableEntry1, tableEntry2);
+                            fprintf(stdout, "Error at line no %d: Column %s exists in tables %s and %s\n", yylinenumber, tp2->columnEntry1, tableEntry1, tableEntry2);
                             return -1;
                         }
                         if (columnNumber(tableEntry1, tp2->columnEntry2) != -1) tp2->tableEntry2 = tableEntry1;
@@ -593,6 +585,7 @@ int attachTable(char *tableEntry1, char *tableEntry2, struct OrList *conditions)
                             return -1;
                         }
                     }
+                    //Check for matching data types
                     char d1[50], d2[50];
                     sprintf(d1, "%s", getType(tp2->tableEntry1, columnNumber(tp2->tableEntry1, tp2->columnEntry1)));
                     sprintf(d2, "%s", getType(tp2->tableEntry2, columnNumber(tp2->tableEntry2, tp2->columnEntry2)));
@@ -610,6 +603,7 @@ int attachTable(char *tableEntry1, char *tableEntry2, struct OrList *conditions)
     return 1;
 }
 
+//Check existence of table
 bool is_table_present(char *table){
     FILE * f=fopen("testfile/tablenames.txt","r");
     char text[max_length];
@@ -622,6 +616,7 @@ bool is_table_present(char *table){
     memset(match_table,0,sizeof(match_table));
     sprintf(match_table,"%s.csv",table);
 
+    //Iterate through all tokens
     while(token!=NULL){
         if(strcmp(token,match_table)==0) return true;
         token=strtok(NULL,deli);
@@ -631,15 +626,16 @@ bool is_table_present(char *table){
 
 }
 
+//Perform cross product of 2 tables
 void cartesian_product(char * tableEntry1,char * tableEntry2){
     bool is_pres1=is_table_present(tableEntry1);
     bool is_pres2=is_table_present(tableEntry2);
     if(!is_pres1){
-        fprintf(stderr,"Table %s is not present\n",tableEntry1);
+        printf("Table %s is not present\n",tableEntry1);
         return;
     }
     if(!is_pres2){
-        fprintf(stderr,"Table %s is not present\n",tableEntry2);
+        printf("Table %s is not present\n",tableEntry2);
         return;
     }
 
@@ -657,14 +653,15 @@ void cartesian_product(char * tableEntry1,char * tableEntry2){
     char *token;
     const char *deli=",";
     token=strtok(text1,deli);
+    //Read all column names from table 1
     while(token!=NULL){
         printf("%s.%s, ",tableEntry1,token);
         token=strtok(NULL,deli);
     }
     char text2[max_length];
     fgets(text2,max_length,f2);
-    // sscanf(text1,"%[^\n]s",text1);
     token=strtok(text2,deli);
+    //Read all column names from table 2
     while(token!=NULL){
         printf("%s.%s",tableEntry2,token);
         token=strtok(NULL,deli);
@@ -675,6 +672,7 @@ void cartesian_product(char * tableEntry1,char * tableEntry2){
     fclose(f2);
     int record_count=0;
     
+    //Perform cross product
     while(fgets(text1,max_length,f1)){
         sscanf(text1,"%[^\n]s",text1);
         f2=fopen(file_name[1],"r");
@@ -692,6 +690,7 @@ void cartesian_product(char * tableEntry1,char * tableEntry2){
     fclose(f1);
 }
 
+//Perform projection operation
 void projection(char cols_name[200][200], int total_cols, char *table) {
     char file_name[200];
     memset(file_name,0,sizeof(file_name));
@@ -715,6 +714,7 @@ void projection(char cols_name[200][200], int total_cols, char *table) {
     token = strtok(headings, deli);
     int col_index = 0;
 
+    //Check which column indixes should be printed
     while (token) {
         for(int i = 0; i < total_cols; i++) {
             if( !strcmp(token, cols_name[i]) ) {
@@ -740,6 +740,7 @@ void projection(char cols_name[200][200], int total_cols, char *table) {
         char text[max_length];
         fgets(text, max_length, fp);
 
+        //Print columns requested by query
         while (fgets(text, max_length, fp)) {
             sscanf(text, "%[^\n]s", text);
             char *token;
